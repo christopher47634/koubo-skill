@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui } from "./designTokens";
 
 export const HudPanel: React.FC<{
   metrics: { label: string; value: number; max?: number; unit?: string; color?: string; icon?: string }[];
@@ -26,11 +27,11 @@ export const HudPanel: React.FC<{
       opacity: fade, transform: `translateX(${(1 - slide) * 30 * dir}px)`, width: w,
     }}>
       <div style={{
-        background: "rgba(0,0,0,0.6)",
-        backdropFilter: "blur(20px) saturate(150%)",
-        border: "1px solid rgba(255,255,255,0.06)",
+        ...ui.glass,
+        background: "linear-gradient(145deg, rgba(13,18,28,0.92), rgba(7,10,17,0.84))",
+        border: "0.5px solid rgba(125,211,252,0.12)",
         borderRadius: 20, padding: "30px 28px",
-        boxShadow: "0 16px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05)",
+        boxShadow: "0 20px 56px rgba(0,0,0,0.42), 0 0 28px rgba(125,211,252,0.05), inset 0 1px 0 rgba(255,255,255,0.09)",
       }}>
         {metrics.map((m, i) => {
           const delay = i * 5;
@@ -47,7 +48,7 @@ export const HudPanel: React.FC<{
                   {m.icon && <span style={{ fontSize: 18, opacity: 0.6 }}>{m.icon}</span>}
                   <span style={{
                     fontFamily: "'JetBrains Mono', 'SF Mono', monospace",
-                    fontSize: 16, color: "rgba(255,255,255,0.5)", letterSpacing: 1.5, textTransform: "uppercase",fontWeight:600,
+                    fontSize: 16, color: "rgba(232,238,248,0.62)", letterSpacing: 1.5, textTransform: "uppercase", fontWeight: 600,
                   }}>{m.label}</span>
                 </div>
                 <span style={{
@@ -57,14 +58,16 @@ export const HudPanel: React.FC<{
               </div>
               {/* 条形图 */}
               <div style={{
-                width: "100%", height: 8, borderRadius: 4,
-                background: "rgba(255,255,255,0.06)",
-                boxShadow: "inset 0 1px 2px rgba(0,0,0,0.3)",
+                width: "100%", height: 9, borderRadius: 6,
+                background: "rgba(255,255,255,0.055)",
+                border: "0.5px solid rgba(255,255,255,0.06)",
+                boxShadow: "inset 0 1px 3px rgba(0,0,0,0.32)",
+                overflow: "hidden",
               }}>
                 <div style={{
-                  width: `${pct}%`, height: "100%", borderRadius: 3,
-                  background: `linear-gradient(90deg, ${color}, ${color}88)`,
-                  boxShadow: `0 0 8px ${color}33`,
+                  width: `${pct}%`, height: "100%", borderRadius: 6,
+                  background: `linear-gradient(90deg, ${color}99, ${color})`,
+                  boxShadow: `0 0 12px ${color}55, inset 0 1px 0 rgba(255,255,255,0.3)`,
                 }} />
               </div>
             </div>
