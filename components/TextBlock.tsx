@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { Badge } from "./Badge";
 
 export const TextBlock: React.FC<{
   icon: string;
@@ -31,19 +32,11 @@ export const TextBlock: React.FC<{
       </div>
       <div style={{
         fontFamily: "'LXGW WenKai', sans-serif", fontSize: 20,
-        color: "rgba(255,255,255,0.4)", marginLeft: 32, marginBottom: 10,
+        color: "rgba(232,238,248,0.62)", marginLeft: 32, marginBottom: 12,
       }}>{sub}</div>
       {badge && (
-        <div style={{
-          display: "inline-flex", alignItems: "center", gap: 6, marginLeft: 32,
-          background: "rgba(134,239,172,0.08)", border: "1px solid rgba(134,239,172,0.15)",
-          borderRadius: 24, padding: "8px 18px",
-        }}>
-          <span style={{ fontSize: 12 }}>✓</span>
-          <span style={{
-            fontFamily: "'ChakraPetch', sans-serif", fontSize: 14,
-            color: "rgba(134,239,172,0.7)", letterSpacing: 2,
-          }}>{badge}</span>
+        <div style={{ marginLeft: 32 }}>
+          <Badge text={badge} icon="✓" enterFrame={enterFrame} exitFrame={exitFrame} />
         </div>
       )}
     </div>
