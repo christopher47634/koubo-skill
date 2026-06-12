@@ -71,17 +71,18 @@ export const SUBTITLE_Z_INDEX = 1000;
 ```
 subtitles.ts 的 Subtitle 接口需加 `en?: string`。英文行用 ChakraPetch 26px，color `rgba(255,255,255,0.46)`，marginTop 3px；未提供英文时只显示中文行。
 
-### UI 组件库 v5（51 个组件 + 32 个音效）
+### UI 组件库 v5.1（51 个组件 + 32 个音效）
 
 完整组件库保存在 **E盘**：`E:\Downloads\remotion-ui-library\components\`
 README + 设计规范：`E:\Downloads\remotion-ui-library\README.md`
 音效库：`E:\Downloads\remotion-ui-library\assets\sfx\`
 
-**v5 设计规范（2026-06-12 更新）**：
+**v5.1 设计规范（2026-06-12 更新）**：
 - 共享设计令牌：`components/designTokens.ts` 统一背景、玻璃表面、文字层级、圆角和强调色。
 - 玻璃表面：深色渐变透明底 + blur(36px) + saturate(175%) + 0.5px 边框 + 顶部高光。
 - 科技强调：青色 `#7DD3FC` 与淡紫 `#C4B5FD`，只用于层级、状态和微光，不做满屏霓虹。
 - 组件原有外部尺寸保持不变；升级材质、对比度与内部信息层级，不破坏现有排版。
+- 多段验收或展示合成必须用 `Series.Sequence` / `Sequence` 提供局部帧号，禁止按全局帧手动切 React 页面，否则后续组件会超过 `exitFrame` 变成空画面。
 - 毛玻璃：`blur(40px) saturate(180%)` + `inset 0 1px 0 rgba(255,255,255,0.12)` 顶部高光 + `inset 0 -1px 0 rgba(0,0,0,0.1)` 底部阴影
 - 渐变边框：外层容器 `padding:1px` + `background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03))`
 - 精细边框：`0.5px solid rgba(255,255,255,0.1)`（不是1px）
