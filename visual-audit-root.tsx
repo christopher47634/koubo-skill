@@ -1,5 +1,5 @@
 import React from "react";
-import {AbsoluteFill, Composition, useCurrentFrame} from "remotion";
+import {AbsoluteFill, Composition, Series} from "remotion";
 import {
   AnimatedChecklist,
   Badge,
@@ -202,14 +202,15 @@ const FramesPage: React.FC = () => (
   </AbsoluteFill>
 );
 
-const AuditShowcase: React.FC = () => {
-  const frame = useCurrentFrame();
-  if (frame < 90) return <CardsPage />;
-  if (frame < 180) return <DataPage />;
-  if (frame < 270) return <TypePage />;
-  if (frame < 360) return <DevicePage />;
-  return <FramesPage />;
-};
+const AuditShowcase: React.FC = () => (
+  <Series>
+    <Series.Sequence durationInFrames={90}><CardsPage /></Series.Sequence>
+    <Series.Sequence durationInFrames={90}><DataPage /></Series.Sequence>
+    <Series.Sequence durationInFrames={90}><TypePage /></Series.Sequence>
+    <Series.Sequence durationInFrames={90}><DevicePage /></Series.Sequence>
+    <Series.Sequence durationInFrames={90}><FramesPage /></Series.Sequence>
+  </Series>
+);
 
 export const VisualAuditRoot: React.FC = () => (
   <>
