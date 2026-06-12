@@ -11,7 +11,7 @@ export const ScreenRecording: React.FC<{
   enterFrame: number;
   exitFrame: number;
   borderColor?: string;
-}> = ({ title, url, children, side, width, height, enterFrame, exitFrame, borderColor = "rgba(250,204,21,0.3)" }) => {
+}> = ({ title, url, children, side, width, height, enterFrame, exitFrame, borderColor = "rgba(125,211,252,0.32)" }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   if (frame < enterFrame - 4 || frame > exitFrame) return null;

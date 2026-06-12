@@ -28,10 +28,11 @@ export const ImageShowcase: React.FC<{
       opacity: fade, transform: `scale(${scale}) translateX(${(1 - scale) * 20 * dir}px)`, width: w,
     }}>
       <div style={{
-        borderRadius: 16, overflow: "hidden",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06)",
+        borderRadius: 18, overflow: "hidden", padding: 1,
+        background: "linear-gradient(135deg, rgba(125,211,252,0.32), rgba(255,255,255,0.08), rgba(196,181,253,0.18))",
+        boxShadow: "0 24px 70px rgba(0,0,0,0.44), 0 0 32px rgba(125,211,252,0.07)",
       }}>
-        <Img src={staticFile(src)} style={{ width: "100%", display: "block" }} />
+        <Img src={staticFile(src)} style={{ width: "100%", display: "block", borderRadius: 17 }} />
       </div>
       {caption && (
         <div style={{

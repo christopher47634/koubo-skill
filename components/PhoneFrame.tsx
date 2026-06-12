@@ -7,7 +7,7 @@ export const PhoneFrame: React.FC<{
   enterFrame: number;
   exitFrame: number;
   borderColor?: string;
-}> = ({ children, side, enterFrame, exitFrame, borderColor = "rgba(250,204,21,0.4)" }) => {
+}> = ({ children, side, enterFrame, exitFrame, borderColor = "rgba(125,211,252,0.42)" }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   if (frame < enterFrame - 4 || frame > exitFrame) return null;

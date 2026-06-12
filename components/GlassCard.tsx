@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui } from "./designTokens";
 
 export const GlassCard: React.FC<{
   children: React.ReactNode;
@@ -30,18 +31,24 @@ export const GlassCard: React.FC<{
       width: w,
     }}>
       <div style={{
-        borderRadius: 24, padding: 1,
-        background: `linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03))`,
+        borderRadius: ui.radius.xl, padding: 1,
+        background: `linear-gradient(135deg, ${accentColor}, rgba(255,255,255,0.11) 38%, rgba(196,181,253,0.16))`,
+        boxShadow: `0 0 34px ${accentColor.replace("0.45", "0.10")}`,
       }}>
         <div style={{
-          background: "rgba(15,15,20,0.75)",
-          backdropFilter: "blur(40px) saturate(180%)",
-          WebkitBackdropFilter: "blur(40px) saturate(180%)",
-          borderRadius: 19,
+          ...ui.glass,
+          position: "relative", overflow: "hidden",
+          border: "none",
+          borderRadius: 25,
           padding: "34px 34px",
-          boxShadow: "0 24px 64px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.1)",
         }}>
+          <div style={{
+            position: "absolute", inset: 0, pointerEvents: "none",
+            background: "radial-gradient(circle at 12% 0%, rgba(125,211,252,0.10), transparent 35%), linear-gradient(115deg, rgba(255,255,255,0.045), transparent 35%)",
+          }} />
+          <div style={{ position: "relative" }}>
           {children}
+          </div>
         </div>
       </div>
     </div>

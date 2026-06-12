@@ -29,14 +29,16 @@ export const ProgressBar: React.FC<{
         </div>
       )}
       <div style={{
-        width: "100%", height: 8, borderRadius: 4,
+        width: "100%", height: 9, borderRadius: 6,
         background: "rgba(255,255,255,0.06)",
-        boxShadow: "inset 0 1px 2px rgba(0,0,0,0.2)",
+        border: "0.5px solid rgba(255,255,255,0.06)",
+        boxShadow: "inset 0 1px 3px rgba(0,0,0,0.32)",
+        overflow: "hidden",
       }}>
         <div style={{
-          width: `${value * progress}%`, height: "100%", borderRadius: 4,
-          background: `linear-gradient(90deg, ${color}, ${color}AA)`,
-          boxShadow: `0 0 12px ${color}44, inset 0 1px 0 rgba(255,255,255,0.2)`,
+          width: `${Math.min(value * progress, 100)}%`, height: "100%", borderRadius: 6,
+          background: `linear-gradient(90deg, ${color}99, ${color})`,
+          boxShadow: `0 0 14px ${color}66, inset 0 1px 0 rgba(255,255,255,0.34)`,
         }} />
       </div>
     </div>

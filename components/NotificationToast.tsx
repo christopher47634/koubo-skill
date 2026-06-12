@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui } from "./designTokens";
 
 export const NotificationToast: React.FC<{
   icon: string;
@@ -33,10 +34,10 @@ export const NotificationToast: React.FC<{
       transform: `translateY(${(1 - slide) * -25}px) scale(${0.9 + slide * 0.1})`,
     }}>
       <div style={{
-        background: "rgba(40,40,45,0.92)",
-        backdropFilter: "blur(32px) saturate(180%)",
+        ...ui.glass,
+        background: "linear-gradient(145deg, rgba(35,40,54,0.94), rgba(14,18,28,0.88))",
         borderRadius: 20, padding: "20px 22px",
-        boxShadow: "0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.06)",
+        boxShadow: "0 20px 56px rgba(0,0,0,0.48), 0 0 28px rgba(125,211,252,0.07), inset 0 1px 0 rgba(255,255,255,0.11)",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
           <span style={{ fontSize: 18 }}>{icon}</span>

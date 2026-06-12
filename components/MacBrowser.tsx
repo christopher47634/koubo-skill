@@ -17,22 +17,20 @@ export const MacBrowser: React.FC<{
 
   return (
     <MacWindow title={title || url} side={side} width={width} height={height} enterFrame={enterFrame} exitFrame={exitFrame}>
-      <div style={{ height: "100%", display: "flex", flexDirection: "column", background: "#FFF" }}>
+      <div style={{ height: "100%", display: "flex", flexDirection: "column", background: "#F7F8FA" }}>
         {/* 地址栏 */}
         <div style={{
-          padding: "12px 16px", background: "#F5F5F5",
-          borderBottom: "1px solid #E0E0E0", display: "flex", alignItems: "center", gap: 10,
+          padding: "12px 16px", background: "linear-gradient(180deg, #F2F3F5, #E8EAED)",
+          borderBottom: "1px solid #D8DADF", display: "flex", alignItems: "center", gap: 10,
         }}>
-          <div style={{ display: "flex", gap: 5 }}>
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FF5F57" }} />
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FEBC2E" }} />
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#28C840" }} />
-          </div>
+          <span style={{ color: "#8B9098", fontSize: 15 }}>‹</span>
+          <span style={{ color: "#8B9098", fontSize: 15 }}>›</span>
           <div style={{
-            flex: 1, background: "#FFF", borderRadius: 6, padding: "8px 14px",
-            border: "1px solid #D0D0D0",
-            fontFamily: "-apple-system, sans-serif", fontSize: 15, color: "#666",
-          }}>🔒 {url}</div>
+            flex: 1, background: "rgba(255,255,255,0.88)", borderRadius: 8, padding: "8px 14px",
+            border: "0.5px solid rgba(0,0,0,0.12)",
+            boxShadow: "inset 0 1px 2px rgba(0,0,0,0.04)",
+            fontFamily: "-apple-system, sans-serif", fontSize: 14, color: "#5F6368",
+          }}>● {url}</div>
         </div>
         {/* 内容 */}
         <div style={{ flex: 1, overflow: "hidden" }}>

@@ -32,8 +32,9 @@ export const StatusIndicator: React.FC<{
           <div key={i} style={{
             display: "flex", alignItems: "center", gap: 10,
             padding: "12px 20px", borderRadius: 26,
-            background: "rgba(255,255,255,0.03)",
-            border: `0.5px solid rgba(255,255,255,0.06)`,
+            background: "linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.018))",
+            border: "0.5px solid rgba(255,255,255,0.08)",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 20px rgba(0,0,0,0.16)",
             opacity: si, transform: `scale(${scale})`,
           }}>
             <div style={{

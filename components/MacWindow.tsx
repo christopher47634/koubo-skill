@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui } from "./designTokens";
 
 export const MacWindow: React.FC<{
   title: string;
@@ -33,8 +34,8 @@ export const MacWindow: React.FC<{
     }}>
       <div style={{
         borderRadius: 12, overflow: "hidden",
-        boxShadow: "0 40px 80px rgba(0,0,0,0.45), 0 12px 32px rgba(0,0,0,0.3), 0 0 0 0.5px rgba(0,0,0,0.2)",
-        background: "rgba(30,30,30,0.88)",
+        boxShadow: "0 40px 90px rgba(0,0,0,0.5), 0 14px 34px rgba(0,0,0,0.34), 0 0 0 0.5px rgba(255,255,255,0.10), 0 0 32px rgba(125,211,252,0.06)",
+        background: ui.colors.surfaceStrong,
         backdropFilter: "blur(40px) saturate(180%)",
         WebkitBackdropFilter: "blur(40px) saturate(180%)",
       }}>
@@ -42,7 +43,7 @@ export const MacWindow: React.FC<{
         <div style={{
           padding: "0 20px", height: 62,
           display: "flex", alignItems: "center", gap: 10,
-          background: "rgba(50,50,50,0.6)",
+          background: "linear-gradient(180deg, rgba(63,68,80,0.72), rgba(34,38,48,0.68))",
           borderBottom: "0.5px solid rgba(255,255,255,0.08)",
         }}>
           {/* 红黄绿灯 */}
