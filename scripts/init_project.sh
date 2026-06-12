@@ -4,7 +4,7 @@
 
 set -e
 
-PROJECT="/tmp/remotion-demo"
+PROJECT="${MODE1_PROJECT:-/tmp/remotion-demo}"
 SKILL_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # 1. 创建目录结构
@@ -36,10 +36,17 @@ fi
 # 5. 复制已验证的组件库；保持组件固有尺寸
 if [ -d "$SKILL_ROOT/components" ]; then
     mkdir -p "$PROJECT/src/components"
+    cp "$SKILL_ROOT"/components/*.ts "$PROJECT/src/components/"
     cp "$SKILL_ROOT"/components/*.tsx "$PROJECT/src/components/"
-    cp "$SKILL_ROOT"/components/index.ts "$PROJECT/src/components/"
     echo "OK: Remotion 组件库已复制"
 fi
+
+# 6. 复制 Mode1 模板，不覆盖已存在的项目文件
+for template in Composition.tsx Root.tsx subtitles.ts subtitles.json; do
+    if [ ! -f "$PROJECT/src/$template" ]; then
+        cp "$SKILL_ROOT/templates/$template" "$PROJECT/src/$template"
+    fi
+done
 
 # 6. 创建 package.json（如果不存在）
 if [ ! -f "$PROJECT/package.json" ]; then
@@ -79,36 +86,24 @@ registerRoot(RemotionRoot);
 EOF
 fi
 
-# 8. 创建 src/subtitles.ts（如果不存在）
-if [ ! -f "$PROJECT/src/subtitles.ts" ]; then
-    cat > "$PROJECT/src/subtitles.ts" << 'EOF'
-export interface Subtitle {
-  index: number;
-  text: string;
-  en?: string;
-  start: number;
-  end: number;
-}
-import data from "./subtitles.json";
-export const subtitles: Subtitle[] = data as Subtitle[];
-EOF
-fi
-
 # 9. 创建 tsconfig.json（如果不存在）
 if [ ! -f "$PROJECT/tsconfig.json" ]; then
     cat > "$PROJECT/tsconfig.json" << 'EOF'
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2018",
     "module": "commonjs",
     "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "isolatedModules": true,
+    "noEmit": true
   },
-  "include": ["src/**/*"]
+  "include": ["src"]
 }
 EOF
 fi
