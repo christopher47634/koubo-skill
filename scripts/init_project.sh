@@ -5,6 +5,7 @@
 set -e
 
 PROJECT="/tmp/remotion-demo"
+SKILL_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # 1. 创建目录结构
 mkdir -p "$PROJECT"/{input,public/{fonts,images,videos,music,sfx},src}
@@ -23,13 +24,24 @@ if [ -f /mnt/e/Downloads/bgm/track-32.mp3 ]; then
     echo "OK: BGM已复制"
 fi
 
-# 4. 复制音效（从E盘永久资产）
-if [ -d /mnt/e/Downloads/sfx ]; then
+# 4. 优先复制 Skill 内置音效，E 盘目录作为兼容回退
+if [ -d "$SKILL_ROOT/assets/sfx" ]; then
+    cp "$SKILL_ROOT"/assets/sfx/*.mp3 "$PROJECT/public/sfx/"
+    echo "OK: Skill 内置音效已复制"
+elif [ -d /mnt/e/Downloads/sfx ]; then
     cp /mnt/e/Downloads/sfx/*.mp3 "$PROJECT/public/sfx/"
-    echo "OK: 音效已复制"
+    echo "OK: E 盘音效已复制"
 fi
 
-# 5. 创建 package.json（如果不存在）
+# 5. 复制已验证的组件库；保持组件固有尺寸
+if [ -d "$SKILL_ROOT/components" ]; then
+    mkdir -p "$PROJECT/src/components"
+    cp "$SKILL_ROOT"/components/*.tsx "$PROJECT/src/components/"
+    cp "$SKILL_ROOT"/components/index.ts "$PROJECT/src/components/"
+    echo "OK: Remotion 组件库已复制"
+fi
+
+# 6. 创建 package.json（如果不存在）
 if [ ! -f "$PROJECT/package.json" ]; then
     cat > "$PROJECT/package.json" << 'EOF'
 {
@@ -58,7 +70,7 @@ EOF
     echo "OK: package.json 已创建"
 fi
 
-# 6. 创建 src/index.ts（如果不存在）
+# 7. 创建 src/index.ts（如果不存在）
 if [ ! -f "$PROJECT/src/index.ts" ]; then
     cat > "$PROJECT/src/index.ts" << 'EOF'
 import { registerRoot } from "remotion";
@@ -67,12 +79,13 @@ registerRoot(RemotionRoot);
 EOF
 fi
 
-# 7. 创建 src/subtitles.ts（如果不存在）
+# 8. 创建 src/subtitles.ts（如果不存在）
 if [ ! -f "$PROJECT/src/subtitles.ts" ]; then
     cat > "$PROJECT/src/subtitles.ts" << 'EOF'
 export interface Subtitle {
   index: number;
   text: string;
+  en?: string;
   start: number;
   end: number;
 }
@@ -81,7 +94,7 @@ export const subtitles: Subtitle[] = data as Subtitle[];
 EOF
 fi
 
-# 8. 创建 tsconfig.json（如果不存在）
+# 9. 创建 tsconfig.json（如果不存在）
 if [ ! -f "$PROJECT/tsconfig.json" ]; then
     cat > "$PROJECT/tsconfig.json" << 'EOF'
 {
@@ -100,7 +113,7 @@ if [ ! -f "$PROJECT/tsconfig.json" ]; then
 EOF
 fi
 
-# 9. 安装依赖
+# 10. 安装依赖
 cd "$PROJECT"
 npm install --registry=https://registry.npmmirror.com
 

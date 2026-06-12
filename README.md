@@ -4,6 +4,8 @@
 
 ### 口播视频一键生成
 
+> 当前发布版与本地 Mode1 母版同步：内置完整 Remotion UI 组件库与音效库，默认使用昨天成片确认的中英双语玻璃字幕。
+
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-v18+-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB.svg?logo=python&logoColor=white)](https://python.org)
@@ -27,6 +29,14 @@
 ```
 
 </div>
+
+## 当前布局规则
+
+- 组件库现有尺寸已经确认，生成视频时直接尊重组件固有宽高、字号和内边距。
+- 左侧约 1/4、右侧约 1/3 是放置参考区，不是强制压缩组件的尺寸上限。
+- 空间不足时优先缩放、裁切或移动人物视频。
+- 字幕使用中文 44px + 英文 26px 的玻璃模板，`zIndex: 1000`，始终高于 REC、扫描线、图片、视频和所有信息组件。
+- 字幕数据使用 `text` + 可选 `en` 字段，详见 [`references/subtitle-layout-contract.md`](references/subtitle-layout-contract.md)。
 
 ---
 
