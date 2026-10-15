@@ -11,6 +11,17 @@ import {
   staticFile,
 } from "remotion";
 import { subtitles } from "./subtitles";
+import {
+  FontLoader,
+  HudCorner,
+  RecIndicator,
+  ScanLines,
+  SubtitleOverlay,
+  SUBTITLE_Z_INDEX,
+  highlightKeywords,
+  ui,
+} from "./components";
+import type { KeywordMap } from "./components";
 
 // ── 素材排期：由 AI 自动生成，用户不手动编辑 ──
 type ScheduleItem =
@@ -18,6 +29,7 @@ type ScheduleItem =
   | { type: "video"; subIdx: number; src: string; label: string };
 
 // ▼▼▼ AI 自动填充区：根据稿子分析结果生成 ▼▼▼
+// 层级：背景 0-10；内容 60-85；HUD/REC/扫描线 90-100；字幕 SUBTITLE_Z_INDEX(1000)
 const SCHEDULE: ScheduleItem[] = [
   // 示例：
   // { type: "image", subIdx: 1, src: "/images/scam-warning.jpg", label: "SCAM" },
@@ -30,56 +42,6 @@ const SCHEDULE: ScheduleItem[] = [
 // ═══════════════════════════════════════════════
 // 以下为锁死模板，永不因内容改变
 // ═══════════════════════════════════════════════
-
-// ── Font Face（锁死） ──
-const FontLoader: React.FC = () => (
-  <style>{`
-    @font-face { font-family: 'LXGW WenKai'; src: url('${staticFile("fonts/LXGWWenKai-Regular.ttf")}') format('truetype'); font-weight: normal; font-style: normal; }
-    @font-face { font-family: 'ChakraPetch'; src: url('${staticFile("fonts/ChakraPetch-SemiBold.ttf")}') format('truetype'); font-weight: 600; font-style: normal; }
-  `}</style>
-);
-
-// ── HUD Corner（锁死：80px #00F0FF opacity 0.5 距边缘20px） ──
-const HudCorner: React.FC<{ pos: "tl" | "tr" | "bl" | "br" }> = ({ pos }) => {
-  const s = 80, c = "#00F0FF", o = 0.5;
-  const base: React.CSSProperties = { position: "absolute", width: s, height: s, opacity: o };
-  const line: React.CSSProperties = { position: "absolute", background: c };
-  const maps = {
-    tl: { style: { top: 20, left: 20 }, h: { top: 0, left: 0 }, v: { top: 0, left: 0 } },
-    tr: { style: { top: 20, right: 20 }, h: { top: 0, right: 0 }, v: { top: 0, right: 0 } },
-    bl: { style: { bottom: 20, left: 20 }, h: { bottom: 0, left: 0 }, v: { bottom: 0, left: 0 } },
-    br: { style: { bottom: 20, right: 20 }, h: { bottom: 0, right: 0 }, v: { bottom: 0, right: 0 } },
-  };
-  const m = maps[pos];
-  return (
-    <div style={{ ...base, ...m.style }}>
-      <div style={{ ...line, width: s, height: 2, ...m.h }} />
-      <div style={{ ...line, width: 2, height: s, ...m.v }} />
-    </div>
-  );
-};
-
-// ── REC（锁死：右上角 红色闪烁 15帧切换） ──
-const Rec: React.FC<{ frame: number }> = ({ frame }) => {
-  const on = Math.floor(frame / 15) % 2 === 0;
-  const sec = Math.floor(frame / 30);
-  const t = `${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(sec % 60).padStart(2, "0")}`;
-  return (
-    <div style={{ position: "absolute", top: 28, right: 120, display: "flex", alignItems: "center", gap: 8, zIndex: 100 }}>
-      <div style={{ width: 10, height: 10, borderRadius: "50%", background: on ? "#FF0040" : "transparent", boxShadow: on ? "0 0 8px #FF0040" : "none" }} />
-      <span style={{ fontFamily: "ChakraPetch, sans-serif", fontSize: 14, color: "#FF0040", letterSpacing: 2, fontWeight: 600 }}>REC {t}</span>
-    </div>
-  );
-};
-
-// ── Scanlines（锁死：#00F0FF opacity 0.015 4px间距） ──
-const Scanlines: React.FC<{ frame: number }> = ({ frame }) => (
-  <div style={{
-    position: "absolute", inset: 0, pointerEvents: "none", zIndex: 50,
-    background: `repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,240,255,0.015) 3px,rgba(0,240,255,0.015) 4px)`,
-    backgroundPosition: `0 ${(frame * 2) % 100}px`,
-  }} />
-);
 
 // ── Image Overlay（锁死：540x405 right:100 top:340 spring动画 15帧淡出） ──
 const ImageItem: React.FC<{
@@ -129,7 +91,7 @@ const ImageItem: React.FC<{
       {/* 标签 */}
       <div style={{
         position: "absolute", bottom: 8, right: 12,
-        fontFamily: "ChakraPetch, sans-serif", fontSize: 12, color: "#00F0FF",
+        fontFamily: "ChakraPetch, sans-serif", fontSize: ui.font.tiny, color: "#00F0FF",
         letterSpacing: 3, textShadow: "0 0 8px rgba(0,240,255,0.8)", zIndex: 3,
       }}>{label}</div>
       {/* 入场闪光 */}
@@ -172,7 +134,7 @@ const VideoItem: React.FC<{
       <Video src={staticFile(src)} style={{ width: "100%", height: "100%", objectFit: "cover" }} muted loop />
       <div style={{
         position: "absolute", bottom: 8, right: 12,
-        fontFamily: "ChakraPetch, sans-serif", fontSize: 12, color: "#00F0FF",
+        fontFamily: "ChakraPetch, sans-serif", fontSize: ui.font.tiny, color: "#00F0FF",
         letterSpacing: 3, textShadow: "0 0 8px rgba(0,240,255,0.8)", zIndex: 3,
       }}>{label}</div>
       <div style={{ position: "absolute", top: -2, left: -2, width: 20, height: 20, borderTop: "2px solid #00F0FF", borderLeft: "2px solid #00F0FF" }} />
@@ -181,36 +143,16 @@ const VideoItem: React.FC<{
   );
 };
 
-// ── 关键词高亮（锁死样式，内容由AI根据稿子填充） ──
-const HL: Record<string, string> = { tool: "#4FC3F7", concept: "#FFB74D", platform: "#CE93D8", trap: "#EF5350", money: "#A5D6A7" };
+// ── 关键词高亮：分类色见 components/highlight.ts 的 HIGHLIGHT_COLORS ──
 // ▼▼▼ AI 自动填充区：根据稿子内容生成关键词分类 ▼▼▼
-const KW: Record<string, string> = {
-  // tool: 产品名、工具名
-  // concept: 抽象概念
-  // platform: 平台名、场景
-  // trap: 负面词汇、讽刺
-  // money: 金额、数字
+const KW: KeywordMap = {
+  // "豆包": "tool",      // tool: 产品名、工具名
+  // "效率": "concept",   // concept: 抽象概念
+  // "抖音": "platform",  // platform: 平台名、场景
+  // "割韭菜": "trap",    // trap: 负面词汇、讽刺
+  // "3980": "money",     // money: 金额、数字
 };
 // ▲▲▲ AI 自动填充区结束 ▲▲▲
-const sortedKw = Object.keys(KW).sort((a, b) => b.length - a.length);
-
-const highlight = (text: string) => {
-  text = text.replace(/[。.]+$/g, "");
-  const parts: React.ReactNode[] = [];
-  let rest = text, idx = 0;
-  while (rest.length > 0) {
-    let found = false;
-    for (const kw of sortedKw) {
-      if (rest.startsWith(kw)) {
-        const color = HL[KW[kw]] || "#FFF";
-        parts.push(<span key={idx++} style={{ color, textShadow: `0 0 8px ${color}44`, fontWeight: 600 }}>{kw}</span>);
-        rest = rest.slice(kw.length); found = true; break;
-      }
-    }
-    if (!found) { parts.push(<span key={idx++} style={{ color: "#E0E0E0" }}>{rest[0]}</span>); rest = rest.slice(1); }
-  }
-  return parts;
-};
 
 // ── Main（锁死逻辑） ──
 export const MainComposition: React.FC = () => {
@@ -252,10 +194,6 @@ export const MainComposition: React.FC = () => {
     }
   });
 
-  const subProg = currentSub
-    ? interpolate(frame, [Math.round(currentSub.start * fps), Math.round(currentSub.start * fps) + 5], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })
-    : 0;
-
   return (
     <AbsoluteFill style={{ background: "#0A0A0A" }}>
       <FontLoader />
@@ -272,46 +210,29 @@ export const MainComposition: React.FC = () => {
       }} />
 
       {/* HUD 全套（锁死） */}
-      <Scanlines frame={frame} />
+      <ScanLines color="0,240,255" lineSpacing={4} opacity={0.1} />
       <HudCorner pos="tl" /><HudCorner pos="tr" /><HudCorner pos="bl" /><HudCorner pos="br" />
-      <Rec frame={frame} />
+      <RecIndicator />
 
       {/* 帧数（锁死） */}
       <div style={{
         position: "absolute", top: 28, left: 120,
-        fontFamily: "ChakraPetch, sans-serif", fontSize: 11, color: "rgba(0,240,255,0.4)", letterSpacing: 2, zIndex: 100,
+        fontFamily: "ChakraPetch, sans-serif", fontSize: ui.font.micro, color: "rgba(0,240,255,0.4)", letterSpacing: 2, zIndex: 100,
       }}>FRAME {String(frame).padStart(4, "0")} / {durationInFrames}</div>
 
       {/* 素材弹入 */}
       {activeItems}
 
-      {/* 字幕：昨天成片确认的中英双语玻璃模板，始终位于全局最高层 */}
+      {/* 字幕：中英双语玻璃模板，z-index 固定为 SUBTITLE_Z_INDEX（全局最高层） */}
       {currentSub && (
-        <div style={{
-          position: "absolute", bottom: 50, left: 0, right: 0, zIndex: 1000,
-          display: "flex", justifyContent: "center",
-          transform: `translateY(${(1 - subProg) * 6}px)`, opacity: subProg,
-        }}>
-          <div style={{
-            display: "flex", flexDirection: "column", alignItems: "center",
-            background: "rgba(0,0,0,0.42)", backdropFilter: "blur(16px)",
-            borderRadius: 14, padding: "14px 44px 10px",
-            boxShadow: "0 4px 24px rgba(0,0,0,0.25)",
-          }}>
-            <div style={{
-              fontFamily: "'LXGW WenKai', sans-serif",
-              fontSize: 44, lineHeight: 1.5, textAlign: "center", letterSpacing: 1.5,
-              color: "#F0F0F0", textShadow: "0 2px 10px rgba(0,0,0,0.45)",
-            }}>{highlight(currentSub.text)}</div>
-            {currentSub.en && (
-              <div style={{
-                fontFamily: "'ChakraPetch', sans-serif",
-                fontSize: 26, lineHeight: 1.4, textAlign: "center",
-                color: "rgba(255,255,255,0.46)", marginTop: 3,
-              }}>{currentSub.en}</div>
-            )}
-          </div>
-        </div>
+        <SubtitleOverlay
+          key={currentSub.index}
+          text={currentSub.text}
+          en={currentSub.en}
+          startFrame={Math.round(currentSub.start * fps)}
+          endFrame={Math.round(currentSub.end * fps)}
+          highlightFn={(t) => highlightKeywords(t, KW)}
+        />
       )}
 
       {/* BGM（锁死：8%音量 循环贯穿） */}

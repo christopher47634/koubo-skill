@@ -1,8 +1,7 @@
 # HyperFrames vs Remotion 对比
 
 **决策结果**：Mode2（纯稿子）已选定 HyperFrames，管线已建。
-- 项目: `/mnt/e/Downloads/mode2-hyperframes/`
-- Skill: `mode2-hyperframes`
+- 对应 Mode2 管线使用 HyperFrames（独立 skill `mode2-hyperframes`，不在本仓库）
 
 ## 适用场景
 
@@ -29,7 +28,7 @@
 - 关键词高亮需自己实现
 - 生态比 Remotion 小，社区资源少
 
-## Chris 的决策框架（已定）
+## 决策框架（已定）
 
 **Mode1: 口播+稿子** → Remotion（成熟管线，不要换）
 **Mode2: 纯稿子** → HyperFrames（已建管线，skill `mode2-hyperframes`）

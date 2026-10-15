@@ -1,7 +1,10 @@
 node_modules/
 dist/
 *.mp4
+*.skill
+*.zip
 whisper_output.json
 public/images/*
 public/videos/*
-public/input-video.mp5
+__pycache__/
+*.pyc

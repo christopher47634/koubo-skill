@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// 渲染前 lint：node scripts/lint-timeline.mjs [--subtitles src/subtitles.json] [--duration 120]
-// 未指定 --duration 时读 src/Root.tsx 的 DURATION_SECONDS；SCHEDULE 的 subIdx 从 src/Composition.tsx 解析。
+// 渲染前 lint：node scripts/lint-timeline.mjs [--src src] [--subtitles <src>/subtitles.json] [--duration 120]
+// 未指定 --duration 时读 <src>/Root.tsx 的 DURATION_SECONDS；SCHEDULE 的 subIdx 从 <src>/Composition.tsx 解析。
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -29,9 +29,10 @@ export function parseDuration(src) {
 function main() {
   const args = process.argv.slice(2);
   const get = (k, d) => (args.includes(k) ? args[args.indexOf(k) + 1] : d);
-  const subPath = resolve(get("--subtitles", "src/subtitles.json"));
-  const rootPath = resolve("src/Root.tsx");
-  const compPath = resolve("src/Composition.tsx");
+  const srcDir = get("--src", "src");
+  const subPath = resolve(get("--subtitles", `${srcDir}/subtitles.json`));
+  const rootPath = resolve(srcDir, "Root.tsx");
+  const compPath = resolve(srcDir, "Composition.tsx");
 
   let subtitles;
   try {

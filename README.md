@@ -4,7 +4,7 @@
 
 ### 口播视频一键生成
 
-> 当前发布版与本地 Mode1 母版同步：内置完整 Remotion UI 组件库与音效库，默认使用昨天成片确认的中英双语玻璃字幕。
+> 内置完整 Remotion UI 组件库与音效库，默认使用中英双语玻璃字幕。
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-v18+-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org)
@@ -36,7 +36,8 @@
 - 组件库现有尺寸已经确认，生成视频时直接尊重组件固有宽高、字号和内边距。
 - 左侧约 1/4、右侧约 1/3 是放置参考区，不是强制压缩组件的尺寸上限。
 - 空间不足时优先缩放、裁切或移动人物视频。
-- 字幕使用中文 44px + 英文 26px 的玻璃模板，`zIndex: 1000`，始终高于 REC、扫描线、图片、视频和所有信息组件。
+- 字幕使用中文 44px + 英文 26px 的玻璃模板，`zIndex: 1000`（`SUBTITLE_Z_INDEX`），始终高于 REC、扫描线、图片、视频和所有信息组件。
+- 整体放大/缩小组件只改 `components/designTokens.ts` 的 `scale`，不要批量改源码。
 - 字幕数据使用 `text` + 可选 `en` 字段，详见 [`references/subtitle-layout-contract.md`](references/subtitle-layout-contract.md)。
 
 ---
@@ -44,14 +45,18 @@
 ## 渲染前检查与测试
 
 ```bash
-npm run lint:timeline     # 字幕时间戳单调/不重叠/不超时长、场景 subIdx 与 duration>0 检查（渲染前自动执行 prerender）
-npm run export:captions   # 把 src/subtitles.json 导出为 Remotion @remotion/captions 的 Caption[]（text,startMs,endMs,timestampMs,confidence），便于换引擎
-npm run typecheck && npm test
+npm run typecheck         # 把 templates/ + components/ 拼成临时项目跑 tsc（scripts/typecheck.sh）
+npm run lint:timeline     # 字幕时间戳单调/不重叠/不超时长、场景 subIdx 与 duration>0 检查
+npm run export:captions   # 导出 Remotion @remotion/captions 的 Caption[]，便于换引擎
+npm test
 ```
 
+- 生成的视频项目里同样可用：`node <skill>/scripts/lint-timeline.mjs`（默认读 `src/`）。
 - 转换函数：`scripts/lib/captions.mjs`（`toCaptions` / `fromCaptions`），单测在 `test/`。
-- CI（`.github/workflows/ci.yml`）：tsc + 时间轴 lint + 单测。
-- 说明：基准截图回归（remotion still + PSNR）未做，因渲染依赖本地视频/字体素材与 Chromium，不适合在无素材的 CI 里跑。
+- CI（`.github/workflows/ci.yml`）：类型检查 + 时间轴 lint + 单测。
+- 基准截图回归（remotion still + PSNR）未做：渲染依赖本地视频、字体与 Chromium，不适合在无素材的 CI 里跑。
+
+---
 
 ## 📖 目录
 
@@ -76,14 +81,16 @@ npm run typecheck && npm test
 > 零配置，对话即出片。
 
 ```bash
-# 1. 下载 skill
+# 1. 下载并打包 skill（koubo.skill 是 zip 包，由脚本生成，不入库）
 git clone https://github.com/christopher47634/koubo-skill.git
-cp koubo-skill/koubo.skill ~/.hermes/skills/
+cd koubo-skill
+bash scripts/package.sh                 # 生成 dist/koubo.skill
 
-# 2. 重启 Hermes
-hermes restart
+# 2. 安装：把包解压到 skills 目录（目录名即 skill 名）
+mkdir -p ~/.hermes/skills/remotion-oral-video
+unzip -o dist/koubo.skill -d ~/.hermes/skills/remotion-oral-video
 
-# 3. 对话中使用
+# 3. 重启 Hermes 后对话使用
 # 对 Hermes 说：「帮我生成一个口播视频，稿子是 [你的稿子]，视频在 [路径]」
 ```
 
@@ -102,7 +109,7 @@ cd koubo-skill
 claude
 
 # 3. 对 Claude 说：
-# 「按照 koubo.skill 的流程，帮我生成口播视频。稿子是 [你的稿子]，视频在 [路径]」
+# 「按照 SKILL.md 的流程，帮我生成口播视频。稿子是 [你的稿子]，视频在 [路径]」
 ```
 
 Claude Code 会按照 skill 中的步骤逐步执行，每一步你可以确认或调整。
@@ -190,28 +197,14 @@ Claude Code 会按照 skill 中的步骤逐步执行，每一步你可以确认�
 ### Step 1: 初始化项目
 
 ```bash
-mkdir -p my-video/{input,public/{fonts,images,videos,music,sfx},src}
-cd my-video
-
-npm init -y
-npm install react react-dom remotion @remotion/cli @remotion/bundler @remotion/renderer @remotion/media-utils typescript @types/react --registry=https://registry.npmmirror.com
-
-cat > tsconfig.json << 'EOF'
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "jsx": "react-jsx",
-    "strict": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "outDir": "./dist",
-    "rootDir": "./src"
-  },
-  "include": ["src/**/*"]
-}
-EOF
+# 字体、BGM 路径通过环境变量传入（均可选；缺失只警告）
+export KOUBO_FONT_DIR=/path/to/fonts        # 含 LXGWWenKai-Regular.ttf、ChakraPetch-SemiBold.ttf
+export KOUBO_BGM=/path/to/your-bgm.mp3      # 需自备
+# export NPM_REGISTRY=https://registry.npmmirror.com   # 国内可选
+bash scripts/init_project.sh ~/my-video     # 默认目录 $HOME/koubo-project
 ```
+
+脚本会复制组件库、音效、模板，并使用锁定版本的 `package.json`（remotion 4.0.290）安装依赖。
 
 ### Step 2: 放入素材
 
@@ -294,7 +287,7 @@ cp subtitles.json src/subtitles.json
 
 ```bash
 # 更新 Root.tsx 中的 durationInFrames（视频秒数 × 30）
-TMPDIR=/tmp npx remotion render src/index.ts main output.mp4 --codec h264
+TMPDIR=/tmp npx remotion render src/index.ts main out/output.mp4 --codec h264
 ```
 
 渲染完成后，`output.mp4` 就是你的成品视频。
@@ -307,22 +300,34 @@ TMPDIR=/tmp npx remotion render src/index.ts main output.mp4 --codec h264
 
 ```
 koubo-skill/
-├── README.md                     ← 你在看的这个文件
-├── LICENSE                       ← MIT 许可证
-├── koubo.skill                   ← Skill 主文档（AI 读这个）
-├── templates/
-│   ├── Composition.tsx           ← Remotion 主组件模板
-│   ├── Root.tsx                  ← Remotion Root 模板
-│   └── subtitles.ts              ← 字幕类型定义
+├── README.md
+├── LICENSE                       ← MIT
+├── SKILL.md                      ← Skill 主流程（AI 读这个，<200 行）
+├── templates/                    ← 项目模板（Composition / Root / index / subtitles / package.json / tsconfig）
+├── components/                   ← 51 个 Remotion 组件 + designTokens.ts，统一由 index.ts 导出
+├── assets/
+│   ├── README.md                 ← 音效来源与 BGM 说明
+│   └── sfx/                      ← 32 个 ffmpeg 合成音效
 ├── scripts/
-│   ├── align_subtitles.py        ← 字幕对齐脚本
-│   ├── init_project.sh           ← 项目初始化脚本
-│   └── run_whisper.py            ← Whisper 运行脚本
-└── references/
-    ├── keyword-highlight.md      ← 关键词高亮系统说明
-    ├── image-download-workflow.md ← 图片搜索策略
-    └── pitfalls.md               ← 常见问题排查
+│   ├── init_project.sh           ← 项目初始化（路径用环境变量）
+│   ├── run_whisper.py            ← Whisper（--device auto 自动回退 CPU）
+│   ├── align_subtitles.py        ← 字幕对齐（读 alignment.json）
+│   ├── typecheck.sh              ← 临时项目 tsc --noEmit
+│   └── package.sh                ← 打包 dist/koubo.skill
+└── references/                   ← 详细规格、工作流、踩坑
 ```
+
+### 打包与安装
+
+`koubo.skill` 是 zip 打包产物，不提交进仓库（已在 `.gitignore`）。需要时自行生成：
+
+```bash
+bash scripts/package.sh                # 输出 dist/koubo.skill，含 SKILL.md/scripts/components/templates/assets/references
+unzip -o dist/koubo.skill -d <你的 skills 目录>/remotion-oral-video    # 安装
+```
+
+包内带有 scripts 和 components，装到别处后 `scripts/init_project.sh` 仍可直接使用。
+
 
 ---
 

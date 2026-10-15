@@ -45,9 +45,22 @@ AI 分析稿子每句话，为需要配图的句子生成搜索关键词：
    - 搜索页面：`https://unsplash.com/s/photos/KEYWORD`
    - 免费商用，质量高
 2. **Pixabay**：`https://pixabay.com/api/?key=***&q=KEYWORD`
-3. **品牌官网**：直接抓取 logo/截图
+3. **品牌官网**：logo/截图（注意商标与版权，见上方版权提醒）
 4. **维基百科**：`https://upload.wikimedia.org/...`
-5. **Google 图片**：搜索后取直链
+
+## 版权提醒
+
+- 品牌 logo、产品截图、人物照片通常受版权/商标/肖像权保护。用于公开发布的视频前，确认授权或属于合理使用范围；商业用途尤其谨慎。
+- 优先使用可商用且无需署名的来源（Unsplash、Pixabay、维基共享资源中的 CC0/公有领域），并按许可要求署名。
+- 不要使用来源不明的图片直链；临时素材定稿后删除，不要提交进仓库。
+- 他人肖像、未成年人、私人聊天截图一律不用。
+
+## 版权提醒
+
+- 品牌 logo、产品截图、人物照片通常受版权/商标/肖像权保护。用于公开发布的视频前，确认授权或属于合理使用范围；商业用途尤其谨慎。
+- 优先使用可商用且无需署名的来源（Unsplash、Pixabay、维基共享资源中的 CC0/公有领域），并按许可要求署名。
+- 不要使用来源不明的图片直链；临时素材定稿后删除，不要提交进仓库。
+- 他人肖像、未成年人、私人聊天截图一律不用。
 
 ## WSL 下载方式
 
@@ -56,15 +69,16 @@ WSL 内 SSL 连接经常失败，必须绕道 Windows PowerShell：
 ```bash
 # 单图
 powershell.exe -Command "
-Invoke-WebRequest -Uri 'IMAGE_URL' -OutFile 'C:\Users\25128\AppData\Local\Temp\dl.jpg' -TimeoutSec 15 -UseBasicParsing
+Invoke-WebRequest -Uri 'IMAGE_URL' -OutFile '<WIN_TEMP>\dl.jpg' -TimeoutSec 15 -UseBasicParsing
 "
-cp /mnt/c/Users/25128/AppData/Local/Temp/dl.jpg /tmp/remotion-demo/public/images/target.jpg
+# WSL 下 Windows 临时目录：/mnt/c/Users/<你的用户名>/AppData/Local/Temp/
+cp "$WIN_TEMP/dl.jpg" "$KOUBO_PROJECT/public/images/target.jpg"
 
 # 批量
 powershell.exe -Command "
 \$images = @(
-    @{url='URL1'; out='C:\Users\25128\AppData\Local\Temp\img1.jpg'},
-    @{url='URL2'; out='C:\Users\25128\AppData\Local\Temp\img2.jpg'}
+    @{url='URL1'; out='<WIN_TEMP>\img1.jpg'},
+    @{url='URL2'; out='<WIN_TEMP>\img2.jpg'}
 )
 foreach (\$img in \$images) {
     try {

@@ -16,9 +16,9 @@
 - **Params**: voice_id, speed, vol, pitch, emotion (happy/neutral/sad/angry 等)
 - **Free tier**: 新用户送几块钱额度，够测试; 付费详见 https://platform.minimaxi.com/docs/guides/pricing-speech
 - **Doc index**: https://platform.minimaxi.com/docs/llms.txt
-- **Chris选定课程男声**: `male-qn-daxuesheng`（青年大学生）— 用于"AI上大学"全15课
+- **选定课程男声**: `male-qn-daxuesheng`（青年大学生）— 用于"AI上大学"全15课
 - **推荐课程男声**:
-  - `male-qn-daxuesheng` — 青年大学生（最贴合课程主题）✅ Chris选定
+  - `male-qn-daxuesheng` — 青年大学生（最贴合课程主题）✅ 选定
   - `male-qn-qingse` — 青涩青年
   - `male-qn-jingying` — 精英青年（试听过，7秒样本音质OK）
   - `junlang_nanyou` — 俊朗男友

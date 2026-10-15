@@ -44,9 +44,9 @@ test("index 与下标不一致仅警告", () => {
   assert.equal(r.length, 1);
 });
 test("仓库自带 subtitles.json / Root / Composition 通过 lint", () => {
-  const subs = JSON.parse(readFileSync("src/subtitles.json", "utf8"));
-  const dur = parseDuration(readFileSync("src/Root.tsx", "utf8"));
-  const sched = parseSchedule(readFileSync("src/Composition.tsx", "utf8"));
+  const subs = JSON.parse(readFileSync("templates/subtitles.json", "utf8"));
+  const dur = parseDuration(readFileSync("templates/Root.tsx", "utf8"));
+  const sched = parseSchedule(readFileSync("templates/Composition.tsx", "utf8"));
   assert.ok(dur > 0);
   assert.equal(errs(lintTimeline({ subtitles: subs, durationSeconds: dur, schedule: sched })).length, 0);
 });

@@ -1,9 +1,9 @@
 # UI Component Library v4 — 完整参考
 
-保存位置：`E:\Downloads\remotion-ui-library\`
-- 组件：`components/`（51个 .tsx 文件）
-- 音效：`assets/sfx/`（32个 .mp3 文件）
-- README：`README.md`
+位置：本仓库根目录
+- 组件：`components/`（51 个 .tsx 文件，统一从 `components/index.ts` 导出）
+- 音效：`assets/sfx/`（32 个 .mp3 文件）
+- 字号/间距：`components/designTokens.ts` 的 `scale`、`ui.font`、`sp()`
 
 ## 设计规范速查
 
@@ -111,8 +111,7 @@ cubic-bezier(0.34, 1.56, 0.64, 1) // 微过冲
 
 ## 音效生成命令
 
-所有 32 个音效已保存在 `E:\Downloads\remotion-ui-library\assets\sfx\`。
-如需重新生成，用 ffmpeg（详见 SKILL.md SFX 章节）。
+所有 32 个音效在 `assets/sfx/`。如需重新生成，用 ffmpeg（详见 `references/sfx.md`）。
 
 ## 完整组件清单（51个）
 

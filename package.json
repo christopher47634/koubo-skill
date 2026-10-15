@@ -1,0 +1,12 @@
+{
+  "name": "koubo-skill-dev",
+  "version": "1.0.0",
+  "private": true,
+  "description": "仓库自检用：类型检查、时间轴 lint、单测。生成视频项目用 templates/package.json。",
+  "scripts": {
+    "typecheck": "bash scripts/typecheck.sh",
+    "lint:timeline": "node scripts/lint-timeline.mjs --src templates",
+    "export:captions": "node scripts/export-captions.mjs templates/subtitles.json captions.json",
+    "test": "node --test test/*.test.mjs"
+  }
+}

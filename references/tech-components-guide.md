@@ -1,7 +1,7 @@
 # 科技感组件使用指南
 
-组件库位置：`E:\Downloads\remotion-ui-library\components\`（51个组件）
-音效库：`E:\Downloads\remotion-ui-library\assets\sfx\`（32个音效）
+组件库位置：本仓库 `components/`（51 个组件）
+音效库：本仓库 `assets/sfx/`（32 个音效，来源见 `assets/README.md`）
 
 ## 典型科技感全屏编排
 

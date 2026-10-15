@@ -7,9 +7,12 @@ WSL 的 GnuTLS 握手对 GitHub API 和 git push 经常失败（SSL: UNEXPECTED_
 用 PowerShell 调 GitHub API：
 
 ```python
+import os
+import os
+import os
 import subprocess
 # 读 ~/.git-credentials 提取 token
-with open("/home/chris47634/.git-credentials", "r") as f:
+with open(os.path.expanduser("~/.git-credentials"), "r") as f:
     cred = f.read().strip()
 token = cred.split(":", 2)[2].split("@")[0]
 
@@ -40,13 +43,13 @@ print(result.stdout.strip())
 
 ```bash
 # WSL 侧复制
-cp -r /tmp/my-project /mnt/c/Users/25128/AppData/Local/Temp/my-project-copy
-rm -rf /mnt/c/Users/25128/AppData/Local/Temp/my-project-copy/.git
+cp -r /tmp/my-project "$WIN_TEMP/my-project-copy"
+rm -rf "$WIN_TEMP/my-project-copy"/.git
 ```
 
 ```powershell
 # PowerShell 侧
-Set-Location 'C:\Users\25128\AppData\Local\Temp'
+Set-Location $env:TEMP
 git clone https://user:***@github.com/user/repo.git repo-push
 Set-Location repo-push
 Get-ChildItem -Path '..\my-project-copy' -Exclude '.git','node_modules' | Copy-Item -Destination '.' -Recurse -Force

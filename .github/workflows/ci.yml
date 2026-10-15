@@ -13,9 +13,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install --no-audit --no-fund
       - name: 类型检查
-        run: npx tsc --noEmit
+        run: npm run typecheck
       - name: 时间轴 lint
         run: npm run lint:timeline
       - name: 单元测试
