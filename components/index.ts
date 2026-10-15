@@ -1,7 +1,6 @@
 /**
- * Remotion UI Component Library v4 — 科技感全套
- * 51个组件 + 32个音效
- * E:\Downloads\remotion-ui-library\
+ * Remotion UI Component Library v5.1 — 科技感全套
+ * 全部组件统一从此处导出；字号/间距通过 designTokens 的 scale 调整。
  */
 
 // ── 科技氛围底层 ──
@@ -11,6 +10,9 @@ export { MatrixRain } from './MatrixRain';
 export { DataStream } from './DataStream';
 export { CircuitLines } from './CircuitLines';
 export { HudCorners } from './HudCorners';
+export { HudCorner } from './HudCorner';
+export type { HudCornerPos } from './HudCorner';
+export { RecIndicator } from './RecIndicator';
 export { PulseRing } from './PulseRing';
 
 // ── 基础卡片 ──
@@ -68,7 +70,8 @@ export { PhoneFrame } from './PhoneFrame';
 
 // ── 工具 ──
 export { SfxTrigger } from './SfxTrigger';
-export { SubtitleOverlay } from './SubtitleOverlay';
+export { SubtitleOverlay, SUBTITLE_Z_INDEX } from './SubtitleOverlay';
 export { FontLoader } from './FontLoader';
-export { keywords, highlightKeywords } from './highlight';
-export { ui, rgba } from './designTokens';
+export { keywords, highlightKeywords, HIGHLIGHT_COLORS } from './highlight';
+export type { HighlightCategory, KeywordMap } from './highlight';
+export { ui, rgba, scale, fs, sp } from './designTokens';

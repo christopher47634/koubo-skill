@@ -1,6 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
-import { ui } from "./designTokens";
+import { ui, sp } from "./designTokens";
 
 export const NotificationToast: React.FC<{
   icon: string;
@@ -36,29 +36,29 @@ export const NotificationToast: React.FC<{
       <div style={{
         ...ui.glass,
         background: "linear-gradient(145deg, rgba(35,40,54,0.94), rgba(14,18,28,0.88))",
-        borderRadius: 20, padding: "20px 22px",
+        borderRadius: 20, padding: sp("20px 22px"),
         boxShadow: "0 20px 56px rgba(0,0,0,0.48), 0 0 28px rgba(125,211,252,0.07), inset 0 1px 0 rgba(255,255,255,0.11)",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-          <span style={{ fontSize: 18 }}>{icon}</span>
+          <span style={{ fontSize: ui.font.lead }}>{icon}</span>
           <span style={{
             fontFamily: "-apple-system, 'SF Pro Text', sans-serif",
-            fontSize: 14, color: "rgba(255,255,255,0.35)", fontWeight: 500,
+            fontSize: ui.font.label, color: "rgba(255,255,255,0.35)", fontWeight: 500,
             textTransform: "uppercase", letterSpacing: 0.5,
           }}>{app}</span>
           <span style={{
             marginLeft: "auto",
             fontFamily: "-apple-system, sans-serif",
-            fontSize: 14, color: "rgba(255,255,255,0.2)",
+            fontSize: ui.font.label, color: "rgba(255,255,255,0.2)",
           }}>now</span>
         </div>
         <div style={{
           fontFamily: "-apple-system, 'SF Pro Display', sans-serif",
-          fontSize: 19, color: "#F5F5F5", fontWeight: 600, marginBottom: 4,
+          fontSize: ui.font.leadLg, color: "#F5F5F5", fontWeight: 600, marginBottom: 4,
         }}>{title}</div>
         <div style={{
           fontFamily: "-apple-system, 'SF Pro Text', sans-serif",
-          fontSize: 16, color: "rgba(255,255,255,0.5)", lineHeight: 1.45,
+          fontSize: ui.font.body, color: "rgba(255,255,255,0.5)", lineHeight: 1.45,
         }}>{body}</div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 export const LowerThird: React.FC<{
   name: string;
@@ -46,22 +47,22 @@ export const LowerThird: React.FC<{
           borderTop: "0.5px solid rgba(255,255,255,0.10)",
           borderRight: "0.5px solid rgba(255,255,255,0.08)",
           borderBottom: "0.5px solid rgba(255,255,255,0.06)",
-          padding: "18px 30px 18px 22px",
+          padding: sp("18px 30px 18px 22px"),
           boxShadow: `0 14px 38px rgba(0,0,0,0.42), 0 0 22px ${accentColor}18, inset 0 1px 0 rgba(255,255,255,0.08)`,
           minWidth: 240,
         }}>
           <div style={{
             fontFamily: "'ChakraPetch', -apple-system, sans-serif",
-            fontSize: 25, color: "#F5F5F5", fontWeight: 600, letterSpacing: 0.5,
+            fontSize: ui.font.h3, color: "#F5F5F5", fontWeight: 600, letterSpacing: 0.5,
             opacity: nameS, transform: `translateX(${(1 - nameS) * 15}px)`,
             marginBottom: 4,
           }}>
-            {avatar && <span style={{ marginRight: 10, fontSize: 18 }}>{avatar}</span>}
+            {avatar && <span style={{ marginRight: 10, fontSize: ui.font.lead }}>{avatar}</span>}
             {name}
           </div>
           <div style={{
             fontFamily: "-apple-system, 'SF Pro Text', sans-serif",
-            fontSize: 18, color: accentColor, fontWeight: 500, letterSpacing: 0.3,
+            fontSize: ui.font.lead, color: accentColor, fontWeight: 500, letterSpacing: 0.3,
             opacity: titleS, transform: `translateX(${(1 - titleS) * 12}px)`,
           }}>{title}</div>
         </div>

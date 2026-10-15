@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate, Img, staticFile } from "remotion";
+import { ui } from "./designTokens";
 
 export const ImageShowcase: React.FC<{
   src: string;
@@ -37,7 +38,7 @@ export const ImageShowcase: React.FC<{
       {caption && (
         <div style={{
           marginTop: 10, textAlign: "center",
-          fontFamily: "-apple-system, sans-serif", fontSize: 16,
+          fontFamily: "-apple-system, sans-serif", fontSize: ui.font.body,
           color: "rgba(255,255,255,0.35)", fontStyle: "italic",
         }}>{caption}</div>
       )}

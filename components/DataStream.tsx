@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame } from "remotion";
+import { ui } from "./designTokens";
 
 export const DataStream: React.FC<{
   columns?: number;
@@ -23,7 +24,7 @@ export const DataStream: React.FC<{
           <div key={i} style={{
             position: "absolute", left: `${x}%`, top: `${-20 + yOffset}%`,
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 14, color, lineHeight: 1.8,
+            fontSize: ui.font.label, color, lineHeight: 1.8,
             writingMode: "vertical-rl",
             whiteSpace: "nowrap",
           }}>

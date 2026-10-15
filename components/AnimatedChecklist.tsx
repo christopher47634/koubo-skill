@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui } from "./designTokens";
 
 export const AnimatedChecklist: React.FC<{
   items: { text: string; checked?: boolean; delay?: number }[];
@@ -46,7 +47,7 @@ export const AnimatedChecklist: React.FC<{
             </div>
             <span style={{
               fontFamily: "'LXGW WenKai', sans-serif",
-              fontSize: 21, color: isChecked ? "#E0E0E0" : "rgba(255,255,255,0.45)",
+              fontSize: ui.font.h5Lg, color: isChecked ? "#E0E0E0" : "rgba(255,255,255,0.45)",
               lineHeight: 1.5,
               textDecoration: isChecked ? "none" : "none",
             }}>{item.text}</span>

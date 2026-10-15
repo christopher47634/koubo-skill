@@ -1,6 +1,7 @@
 import React from "react";
 import { useCurrentFrame } from "remotion";
 import { MacWindow } from "./MacWindow";
+import { ui, sp } from "./designTokens";
 
 export const MacTerminal: React.FC<{
   lines: { prompt?: string; text: string; type?: "input" | "output" | "success" | "error" | "comment" }[];
@@ -26,9 +27,9 @@ export const MacTerminal: React.FC<{
   return (
     <MacWindow title={title} side={side} width={width} height={height} enterFrame={enterFrame} exitFrame={exitFrame}>
       <div style={{
-        padding: "20px 22px",
+        padding: sp("20px 22px"),
         fontFamily: "'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace",
-        fontSize: 16, lineHeight: 1.75,
+        fontSize: ui.font.body, lineHeight: 1.75,
         background: "rgba(18,18,22,0.95)",
       }}>
         {lines.map((line, i) => {

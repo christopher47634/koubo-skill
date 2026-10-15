@@ -1,6 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
-import { ui } from "./designTokens";
+import { ui, sp } from "./designTokens";
 
 export const HudPanel: React.FC<{
   metrics: { label: string; value: number; max?: number; unit?: string; color?: string; icon?: string }[];
@@ -30,7 +30,7 @@ export const HudPanel: React.FC<{
         ...ui.glass,
         background: "linear-gradient(145deg, rgba(13,18,28,0.92), rgba(7,10,17,0.84))",
         border: "0.5px solid rgba(125,211,252,0.12)",
-        borderRadius: 20, padding: "30px 28px",
+        borderRadius: 20, padding: sp("30px 28px"),
         boxShadow: "0 20px 56px rgba(0,0,0,0.42), 0 0 28px rgba(125,211,252,0.05), inset 0 1px 0 rgba(255,255,255,0.09)",
       }}>
         {metrics.map((m, i) => {
@@ -45,15 +45,15 @@ export const HudPanel: React.FC<{
             }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  {m.icon && <span style={{ fontSize: 18, opacity: 0.6 }}>{m.icon}</span>}
+                  {m.icon && <span style={{ fontSize: ui.font.lead, opacity: 0.6 }}>{m.icon}</span>}
                   <span style={{
                     fontFamily: "'JetBrains Mono', 'SF Mono', monospace",
-                    fontSize: 16, color: "rgba(232,238,248,0.62)", letterSpacing: 1.5, textTransform: "uppercase", fontWeight: 600,
+                    fontSize: ui.font.body, color: "rgba(232,238,248,0.62)", letterSpacing: 1.5, textTransform: "uppercase", fontWeight: 600,
                   }}>{m.label}</span>
                 </div>
                 <span style={{
                   fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: 27, color, fontWeight: 700, fontVariantNumeric: "tabular-nums",
+                  fontSize: ui.font.h3Lg, color, fontWeight: 700, fontVariantNumeric: "tabular-nums",
                 }}>{Math.round(m.value * si)}{m.unit || ""}</span>
               </div>
               {/* 条形图 */}

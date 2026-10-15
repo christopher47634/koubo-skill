@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 export const StepIndicator: React.FC<{
   steps: { label: string; done?: boolean; active?: boolean }[];
@@ -25,11 +26,11 @@ export const StepIndicator: React.FC<{
           <div key={i} style={{
             display: "flex", alignItems: "center", gap: 6,
             background: bg, border: `1px solid ${border}`, borderRadius: 24,
-            padding: "9px 18px", opacity: s, transform: `scale(${scale})`,
+            padding: sp("9px 18px"), opacity: s, transform: `scale(${scale})`,
           }}>
-            {step.done && <span style={{ fontSize: 11 }}>✓</span>}
-            {step.active && <span style={{ fontSize: 14, color }}>●</span>}
-            <span style={{ fontFamily: "-apple-system, sans-serif", fontSize: 15, color, fontWeight: 500 }}>{step.label}</span>
+            {step.done && <span style={{ fontSize: ui.font.micro }}>✓</span>}
+            {step.active && <span style={{ fontSize: ui.font.label, color }}>●</span>}
+            <span style={{ fontFamily: "-apple-system, sans-serif", fontSize: ui.font.small, color, fontWeight: 500 }}>{step.label}</span>
           </div>
         );
       })}

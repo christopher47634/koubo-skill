@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, interpolate } from "remotion";
+import { ui } from "./designTokens";
 
 export const LoadingDots: React.FC<{
   text?: string;
@@ -15,7 +16,7 @@ export const LoadingDots: React.FC<{
   return (
     <div style={{
       display: "flex", alignItems: "center", gap: 6, opacity: fade,
-      fontFamily: "'JetBrains Mono', monospace", fontSize: 18, color: "rgba(255,255,255,0.5)",
+      fontFamily: "'JetBrains Mono', monospace", fontSize: ui.font.lead, color: "rgba(255,255,255,0.5)",
     }}>
       <span>{text}</span>
       {[0, 1, 2].map(i => {

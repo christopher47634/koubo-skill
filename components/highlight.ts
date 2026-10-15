@@ -1,15 +1,18 @@
 import React from "react";
 
-const COLORS: Record<string, string> = {
+export const HIGHLIGHT_COLORS = {
   tool: "#7DD3FC",
   concept: "#FCD34D",
   platform: "#C4B5FD",
   trap: "#FCA5A5",
   money: "#86EFAC",
-};
+} as const;
 
-// 关键词映射表 - 根据你的内容自定义
-export const keywords: Record<string, keyof typeof COLORS> = {
+export type HighlightCategory = keyof typeof HIGHLIGHT_COLORS;
+export type KeywordMap = Record<string, HighlightCategory>;
+
+// 默认关键词映射表 - 根据稿子内容自定义（也可在调用处传入自己的 map）
+export const keywords: KeywordMap = {
   "AI": "concept",
   "模型": "tool",
   "ChatGPT": "tool",
@@ -17,26 +20,22 @@ export const keywords: Record<string, keyof typeof COLORS> = {
   "代码": "tool",
 };
 
-const sorted = Object.keys(keywords).sort((a, b) => b.length - a.length);
-
-export const highlightKeywords = (text: string): React.ReactNode[] => {
-  text = text.replace(/[。.]+$/g, "");
+export const highlightKeywords = (text: string, map: KeywordMap = keywords): React.ReactNode[] => {
+  const sorted = Object.keys(map).sort((a, b) => b.length - a.length);
+  const chars = Array.from(text.replace(/[。.]+$/g, ""));
   const parts: React.ReactNode[] = [];
-  let rest = text, idx = 0;
-  while (rest.length > 0) {
-    let found = false;
-    for (const kw of sorted) {
-      if (rest.startsWith(kw)) {
-        const color = COLORS[keywords[kw]] || "#FFF";
-        parts.push(React.createElement("span", { key: idx++, style: { color, fontWeight: 600 } }, kw));
-        rest = rest.slice(kw.length);
-        found = true;
-        break;
-      }
-    }
-    if (!found) {
-      parts.push(React.createElement("span", { key: idx++ }, rest[0]));
-      rest = rest.slice(1);
+  let i = 0;
+  let idx = 0;
+  while (i < chars.length) {
+    const rest = chars.slice(i).join("");
+    const kw = sorted.find((k) => rest.startsWith(k));
+    if (kw) {
+      const color = HIGHLIGHT_COLORS[map[kw]] ?? "#FFF";
+      parts.push(React.createElement("span", { key: idx++, style: { color, textShadow: `0 0 8px ${color}44`, fontWeight: 600 } }, kw));
+      i += Array.from(kw).length;
+    } else {
+      parts.push(React.createElement("span", { key: idx++ }, chars[i]));
+      i += 1;
     }
   }
   return parts;

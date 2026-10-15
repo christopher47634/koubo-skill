@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui } from "./designTokens";
 
 export const CircularGauge: React.FC<{
   value: number;
@@ -55,7 +56,7 @@ export const CircularGauge: React.FC<{
       {label && (
         <div style={{
           fontFamily: "-apple-system, sans-serif",
-          fontSize: 15, color: "rgba(255,255,255,0.35)", fontWeight: 500, letterSpacing: 1,
+          fontSize: ui.font.small, color: "rgba(255,255,255,0.35)", fontWeight: 500, letterSpacing: 1,
         }}>{label}</div>
       )}
     </div>

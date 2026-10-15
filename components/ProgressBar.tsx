@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui } from "./designTokens";
 
 export const ProgressBar: React.FC<{
   value: number;
@@ -21,7 +22,7 @@ export const ProgressBar: React.FC<{
       {label && (
         <div style={{
           fontFamily: "'ChakraPetch', -apple-system, sans-serif",
-          fontSize: 15, color: "rgba(255,255,255,0.45)", marginBottom: 8, letterSpacing: 1,
+          fontSize: ui.font.small, color: "rgba(255,255,255,0.45)", marginBottom: 8, letterSpacing: 1,
           display: "flex", justifyContent: "space-between",
         }}>
           <span>{label}</span>

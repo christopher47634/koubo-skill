@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, interpolate } from "remotion";
+import { fs } from "./designTokens";
 
 export const FloatingIcons: React.FC<{
   icons: { emoji: string; x: number; y: number; size?: number; delay?: number }[];
@@ -23,7 +24,7 @@ export const FloatingIcons: React.FC<{
           <div key={i} style={{
             position: "absolute",
             left: `${ic.x}%`, top: `${ic.y}%`,
-            fontSize: ic.size || 28,
+            fontSize: ic.size || fs(28),
             opacity: si * 0.15,
             transform: `translate(${floatX}px, ${floatY}px) rotate(${rotate}deg) scale(${si})`,
           }}>{ic.emoji}</div>

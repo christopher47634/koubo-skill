@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 export const MetricCard: React.FC<{
   icon: string;
@@ -30,35 +31,35 @@ export const MetricCard: React.FC<{
       <div style={{
         background: "rgba(15,15,20,0.8)",
         backdropFilter: "blur(40px) saturate(180%)",
-        borderRadius: 24, padding: "34px 30px",
+        borderRadius: 24, padding: sp("34px 30px"),
         border: `1px solid ${color}22`,
         boxShadow: `0 24px 64px rgba(0,0,0,0.3), 0 0 40px ${color}11, inset 0 1px 0 rgba(255,255,255,0.08)`,
       }}>
         <div style={{
           width: 62, height: 62, borderRadius: 16, marginBottom: 18,
           background: `${color}15`, border: `1px solid ${color}22`,
-          display: "flex", alignItems: "center", justifyContent: "center", fontSize: 31,
+          display: "flex", alignItems: "center", justifyContent: "center", fontSize: ui.font.h2Xl,
         }}>{icon}</div>
         <div style={{
           fontFamily: "-apple-system, sans-serif",
-          fontSize: 16, color: "rgba(255,255,255,0.35)", fontWeight: 500,
+          fontSize: ui.font.body, color: "rgba(255,255,255,0.35)", fontWeight: 500,
           letterSpacing: 0.5, marginBottom: 6,
         }}>{label}</div>
         <div style={{
           fontFamily: "'ChakraPetch', sans-serif",
-          fontSize: 48, color: "#F5F5F5", fontWeight: 700, lineHeight: 1,
+          fontSize: ui.font.display, color: "#F5F5F5", fontWeight: 700, lineHeight: 1,
           fontVariantNumeric: "tabular-nums",
         }}>{value}</div>
         {trend && (
           <div style={{
             display: "flex", alignItems: "center", gap: 4, marginTop: 10,
           }}>
-            <span style={{ fontSize: 18, color: trend.direction === "up" ? "#4ADE80" : "#F87171" }}>
+            <span style={{ fontSize: ui.font.lead, color: trend.direction === "up" ? "#4ADE80" : "#F87171" }}>
               {trend.direction === "up" ? "↑" : "↓"}
             </span>
             <span style={{
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 16, color: trend.direction === "up" ? "#4ADE80" : "#F87171", fontWeight: 600,
+              fontSize: ui.font.body, color: trend.direction === "up" ? "#4ADE80" : "#F87171", fontWeight: 600,
             }}>{trend.value}</span>
           </div>
         )}

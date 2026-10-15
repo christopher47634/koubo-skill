@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, interpolate } from "remotion";
+import { sp } from "./designTokens";
 
 export const Divider: React.FC<{
   width?: string;
@@ -15,7 +16,7 @@ export const Divider: React.FC<{
 
   return (
     <div style={{
-      display: "flex", justifyContent: "center", opacity: fade, padding: "12px 0",
+      display: "flex", justifyContent: "center", opacity: fade, padding: sp("12px 0"),
     }}>
       <div style={{
         width: `${lineW}%`, maxWidth: width, height: 1,

@@ -1,6 +1,7 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 import { GlassCard } from "./GlassCard";
+import { ui } from "./designTokens";
 
 export const TimelineCard: React.FC<{
   events: { time: string; title: string; desc?: string; icon?: string; color?: string }[];
@@ -36,12 +37,12 @@ export const TimelineCard: React.FC<{
                 background: ev.color || "rgba(96,165,250,0.6)",
                 boxShadow: `0 0 8px ${ev.color || "rgba(96,165,250,0.4)"}`,
               }} />
-              <div style={{ fontFamily: "'ChakraPetch', monospace", fontSize: 14, color: "rgba(255,255,255,0.3)", marginBottom: 3 }}>{ev.time}</div>
-              <div style={{ fontFamily: "'LXGW WenKai', sans-serif", fontSize: 21, color: "#E0E0E0", fontWeight: 500 }}>
-                {ev.icon && <span style={{ marginRight: 8, fontSize: 14 }}>{ev.icon}</span>}
+              <div style={{ fontFamily: "'ChakraPetch', monospace", fontSize: ui.font.label, color: "rgba(255,255,255,0.3)", marginBottom: 3 }}>{ev.time}</div>
+              <div style={{ fontFamily: "'LXGW WenKai', sans-serif", fontSize: ui.font.h5Lg, color: "#E0E0E0", fontWeight: 500 }}>
+                {ev.icon && <span style={{ marginRight: 8, fontSize: ui.font.label }}>{ev.icon}</span>}
                 {ev.title}
               </div>
-              {ev.desc && <div style={{ fontFamily: "-apple-system, sans-serif", fontSize: 16, color: "rgba(255,255,255,0.35)", marginTop: 3 }}>{ev.desc}</div>}
+              {ev.desc && <div style={{ fontFamily: "-apple-system, sans-serif", fontSize: ui.font.body, color: "rgba(255,255,255,0.35)", marginTop: 3 }}>{ev.desc}</div>}
             </div>
           );
         })}

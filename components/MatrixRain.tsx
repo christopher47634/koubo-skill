@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame } from "remotion";
+import { ui } from "./designTokens";
 
 export const MatrixRain: React.FC<{
   color?: string;
@@ -24,7 +25,7 @@ export const MatrixRain: React.FC<{
           <div key={i} style={{
             position: "absolute", left: `${x}%`, top: `${-15 + yOffset}%`,
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 15, color, lineHeight: 1.6,
+            fontSize: ui.font.small, color, lineHeight: 1.6,
             writingMode: "vertical-rl",
           }}>
             {Array.from({ length: charCount }).map((_, j) => {

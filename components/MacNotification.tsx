@@ -1,6 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
-import { ui } from "./designTokens";
+import { ui, sp } from "./designTokens";
 
 export const MacNotification: React.FC<{
   app: string;
@@ -26,15 +26,15 @@ export const MacNotification: React.FC<{
       <div style={{
         ...ui.glass,
         background: "linear-gradient(145deg, rgba(48,53,66,0.94), rgba(20,24,34,0.91))",
-        borderRadius: 14, padding: "14px 16px",
+        borderRadius: 14, padding: sp("14px 16px"),
         boxShadow: "0 16px 46px rgba(0,0,0,0.44), 0 0 24px rgba(125,211,252,0.06), inset 0 1px 0 rgba(255,255,255,0.10)",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-          {icon && <span style={{ fontSize: 16 }}>{icon}</span>}
-          <span style={{ fontFamily: "-apple-system, sans-serif", fontSize: 11, color: "rgba(255,255,255,0.4)", fontWeight: 500, textTransform: "uppercase", letterSpacing: 0.5 }}>{app}</span>
+          {icon && <span style={{ fontSize: ui.font.body }}>{icon}</span>}
+          <span style={{ fontFamily: "-apple-system, sans-serif", fontSize: ui.font.micro, color: "rgba(255,255,255,0.4)", fontWeight: 500, textTransform: "uppercase", letterSpacing: 0.5 }}>{app}</span>
         </div>
-        <div style={{ fontFamily: "-apple-system, sans-serif", fontSize: 15, color: "#F5F5F5", fontWeight: 600, marginBottom: 3 }}>{title}</div>
-        <div style={{ fontFamily: "-apple-system, sans-serif", fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 1.4 }}>{body}</div>
+        <div style={{ fontFamily: "-apple-system, sans-serif", fontSize: ui.font.small, color: "#F5F5F5", fontWeight: 600, marginBottom: 3 }}>{title}</div>
+        <div style={{ fontFamily: "-apple-system, sans-serif", fontSize: ui.font.caption, color: "rgba(255,255,255,0.55)", lineHeight: 1.4 }}>{body}</div>
       </div>
     </div>
   );

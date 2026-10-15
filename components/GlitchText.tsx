@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, interpolate } from "remotion";
+import { ui } from "./designTokens";
 
 export const GlitchText: React.FC<{
   text: string;
@@ -9,7 +10,7 @@ export const GlitchText: React.FC<{
   glitchColor2?: string;
   enterFrame: number;
   exitFrame: number;
-}> = ({ text, fontSize = 56, color = "#F5F5F5", glitchColor1 = "#00D4FF", glitchColor2 = "#A78BFA", enterFrame, exitFrame }) => {
+}> = ({ text, fontSize = ui.font.displayLg, color = "#F5F5F5", glitchColor1 = "#00D4FF", glitchColor2 = "#A78BFA", enterFrame, exitFrame }) => {
   const frame = useCurrentFrame();
   if (frame < enterFrame - 3 || frame > exitFrame) return null;
   const local = frame - enterFrame + 3;

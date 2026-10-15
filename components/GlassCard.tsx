@@ -1,6 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
-import { ui } from "./designTokens";
+import { ui, sp } from "./designTokens";
 
 export const GlassCard: React.FC<{
   children: React.ReactNode;
@@ -40,7 +40,7 @@ export const GlassCard: React.FC<{
           position: "relative", overflow: "hidden",
           border: "none",
           borderRadius: 25,
-          padding: "34px 34px",
+          padding: sp("34px 34px"),
         }}>
           <div style={{
             position: "absolute", inset: 0, pointerEvents: "none",

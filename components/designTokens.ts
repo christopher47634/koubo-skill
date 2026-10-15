@@ -1,5 +1,54 @@
 import React from "react";
 
+/**
+ * 全局缩放参数。需要整体放大/缩小组件时只改这里，不要批量改源码。
+ * font  —— 所有 ui.font.* 字号与 fs() 的倍率
+ * space —— sp() 作用的内边距/间距倍率
+ */
+export const scale = { font: 1, space: 1 };
+
+/** 按 scale.font 缩放字号（取整） */
+export const fs = (px: number): number => Math.round(px * scale.font);
+
+/** 按 scale.space 缩放间距；接受数字或 "10px 14px" 这类含 px 的字符串 */
+export function sp(value: number): number;
+export function sp(value: string): string;
+export function sp(value: number | string): number | string {
+  if (typeof value === "number") return Math.round(value * scale.space);
+  return value.replace(/(-?\d+(?:\.\d+)?)px/g, (_, n: string) => `${Math.round(parseFloat(n) * scale.space)}px`);
+}
+
+const BASE_FONT = {
+  micro: 11,
+  tiny: 12,
+  caption: 13,
+  label: 14,
+  small: 15,
+  body: 16,
+  bodyLg: 17,
+  lead: 18,
+  leadLg: 19,
+  h5: 20,
+  h5Lg: 21,
+  h4: 22,
+  h3: 25,
+  en: 26,
+  h3Lg: 27,
+  h2: 29,
+  h2Lg: 30,
+  h2Xl: 31,
+  h1: 38,
+  subtitle: 44,
+  display: 48,
+  displayLg: 56,
+  stat: 72,
+  hero: 88,
+};
+
+const font = Object.fromEntries(
+  Object.entries(BASE_FONT).map(([k, v]) => [k, fs(v)]),
+) as { [K in keyof typeof BASE_FONT]: number };
+
 export const ui = {
   colors: {
     bg: "#07090F",
@@ -17,6 +66,7 @@ export const ui = {
     amber: "#FCD34D",
     red: "#FCA5A5",
   },
+  font,
   radius: {
     sm: 10,
     md: 16,

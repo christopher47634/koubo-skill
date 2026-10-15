@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 export const Tag: React.FC<{
   text: string;
@@ -44,7 +45,7 @@ export const Tag: React.FC<{
           background: "linear-gradient(135deg, rgba(17,24,39,0.82), rgba(9,12,20,0.7))",
           backdropFilter: "blur(32px) saturate(180%)",
           WebkitBackdropFilter: "blur(32px) saturate(180%)",
-          borderRadius: 11, padding: "13px 27px",
+          borderRadius: 11, padding: sp("13px 27px"),
           boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.2)",
         }}>
           <div style={{
@@ -58,11 +59,11 @@ export const Tag: React.FC<{
             boxShadow: "0 0 10px rgba(125,211,252,0.85)",
             flexShrink: 0,
           }} />
-          {icon && <span style={{ fontSize: 14, color: "#C4B5FD" }}>{icon}</span>}
+          {icon && <span style={{ fontSize: ui.font.label, color: "#C4B5FD" }}>{icon}</span>}
           <span style={{
             position: "relative",
             fontFamily: "'ChakraPetch', -apple-system, sans-serif",
-            fontSize: 15, color, letterSpacing: 3, fontWeight: 600,
+            fontSize: ui.font.small, color, letterSpacing: 3, fontWeight: 600,
             textShadow: "0 0 16px rgba(125,211,252,0.12)",
           }}>{text}</span>
         </div>

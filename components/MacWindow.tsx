@@ -1,6 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
-import { ui } from "./designTokens";
+import { ui, sp } from "./designTokens";
 
 export const MacWindow: React.FC<{
   title: string;
@@ -41,7 +41,7 @@ export const MacWindow: React.FC<{
       }}>
         {/* 标题栏 */}
         <div style={{
-          padding: "0 20px", height: 62,
+          padding: sp("0 20px"), height: 62,
           display: "flex", alignItems: "center", gap: 10,
           background: "linear-gradient(180deg, rgba(63,68,80,0.72), rgba(34,38,48,0.68))",
           borderBottom: "0.5px solid rgba(255,255,255,0.08)",
@@ -55,7 +55,7 @@ export const MacWindow: React.FC<{
           <span style={{
             flex: 1, textAlign: "center",
             fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
-            fontSize: 16, color: "rgba(255,255,255,0.65)", fontWeight: 500, letterSpacing: 0.2,
+            fontSize: ui.font.body, color: "rgba(255,255,255,0.65)", fontWeight: 500, letterSpacing: 0.2,
           }}>{title}</span>
           <div style={{ width: 54 }} />
         </div>

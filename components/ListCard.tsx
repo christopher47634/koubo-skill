@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 export const ListCard: React.FC<{
   title: string;
@@ -43,7 +44,7 @@ export const ListCard: React.FC<{
           backdropFilter: "blur(40px) saturate(180%)",
           WebkitBackdropFilter: "blur(40px) saturate(180%)",
           borderRadius: 19,
-          padding: "30px 26px",
+          padding: sp("30px 26px"),
           boxShadow: "0 24px 64px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.1)",
         }}>
           {/* 标题行 */}
@@ -52,10 +53,10 @@ export const ListCard: React.FC<{
             marginBottom: 18, paddingBottom: 14,
             borderBottom: `1px solid rgba(255,255,255,0.06)`,
           }}>
-            {icon && <span style={{ fontSize: 16 }}>{icon}</span>}
+            {icon && <span style={{ fontSize: ui.font.body }}>{icon}</span>}
             <span style={{
               fontFamily: "'ChakraPetch', -apple-system, sans-serif",
-              fontSize: 14, color: accent, letterSpacing: 3, fontWeight: 600,
+              fontSize: ui.font.label, color: accent, letterSpacing: 3, fontWeight: 600,
             }}>{title}</span>
           </div>
           {/* 列表项：每行独立卡片 */}
@@ -65,7 +66,7 @@ export const ListCard: React.FC<{
             return (
               <div key={i} style={{
                 display: "flex", alignItems: "center", gap: 18,
-                padding: "16px 18px", marginBottom: i < items.length - 1 ? 4 : 0,
+                padding: sp("16px 18px"), marginBottom: i < items.length - 1 ? 4 : 0,
                 borderRadius: 12,
                 background: "rgba(255,255,255,0.03)",
                 border: "0.5px solid rgba(255,255,255,0.06)",
@@ -78,20 +79,20 @@ export const ListCard: React.FC<{
                     width: 42, height: 42, borderRadius: 10, flexShrink: 0,
                     background: item.iconBg || `${accent}22`,
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 22,
+                    fontSize: ui.font.h4,
                   }}>{item.icon}</div>
                 )}
                 {/* 文字 */}
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{
                     fontFamily: "'LXGW WenKai', -apple-system, sans-serif",
-                    fontSize: 21, color: "rgba(255,255,255,0.9)", fontWeight: 500,
+                    fontSize: ui.font.h5Lg, color: "rgba(255,255,255,0.9)", fontWeight: 500,
                     whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                   }}>{item.text}</div>
                   {item.sub && (
                     <div style={{
                       fontFamily: "-apple-system, sans-serif",
-                      fontSize: 15, color: "rgba(255,255,255,0.35)", marginTop: 2,
+                      fontSize: ui.font.small, color: "rgba(255,255,255,0.35)", marginTop: 2,
                     }}>{item.sub}</div>
                   )}
                 </div>

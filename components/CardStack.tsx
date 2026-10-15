@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 export const CardStack: React.FC<{
   cards: { title: string; content: string; icon?: string; color?: string }[];
@@ -47,20 +48,20 @@ export const CardStack: React.FC<{
             <div style={{
               background: "rgba(15,15,20,0.8)",
               backdropFilter: "blur(24px) saturate(180%)",
-              borderRadius: 20, padding: "22px 26px",
+              borderRadius: 20, padding: sp("22px 26px"),
               border: `1px solid ${color.replace("0.45", "0.15")}`,
               boxShadow: "0 12px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)",
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-                {card.icon && <span style={{ fontSize: 18 }}>{card.icon}</span>}
+                {card.icon && <span style={{ fontSize: ui.font.lead }}>{card.icon}</span>}
                 <span style={{
                   fontFamily: "'ChakraPetch', sans-serif",
-                  fontSize: 16, color, letterSpacing: 2, fontWeight: 600,
+                  fontSize: ui.font.body, color, letterSpacing: 2, fontWeight: 600,
                 }}>{card.title}</span>
               </div>
               <div style={{
                 fontFamily: "'LXGW WenKai', sans-serif",
-                fontSize: 20, color: "rgba(255,255,255,0.7)", lineHeight: 1.5,
+                fontSize: ui.font.h5, color: "rgba(255,255,255,0.7)", lineHeight: 1.5,
               }}>{card.content}</div>
             </div>
           </div>

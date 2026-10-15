@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 export const ComparisonCard: React.FC<{
   left: { title: string; items: string[]; color?: string };
@@ -22,18 +23,18 @@ export const ComparisonCard: React.FC<{
       transform: `translateX(${(1 - slideVal) * 15 * dir}px)`,
     }}>
       <div style={{
-        background: "rgba(255,255,255,0.03)", borderRadius: 16, padding: "26px 28px",
+        background: "rgba(255,255,255,0.03)", borderRadius: 16, padding: sp("26px 28px"),
         border: `1px solid ${data.color || "rgba(255,255,255,0.06)"}`,
       }}>
         <div style={{
-          fontFamily: "-apple-system, sans-serif", fontSize: 16, fontWeight: 600,
+          fontFamily: "-apple-system, sans-serif", fontSize: ui.font.body, fontWeight: 600,
           color: data.color || "rgba(255,255,255,0.6)", letterSpacing: 1, marginBottom: 14,
         }}>{data.title}</div>
         {data.items.map((item, i) => {
           const s = clamp01((local - i * 3) / 8);
           return (
             <div key={i} style={{
-              fontFamily: "'LXGW WenKai', sans-serif", fontSize: 22, color: "#D4D4D4", lineHeight: 2.2,
+              fontFamily: "'LXGW WenKai', sans-serif", fontSize: ui.font.h4, color: "#D4D4D4", lineHeight: 2.2,
               display: "flex", alignItems: "center", gap: 12,
               opacity: s, transform: `translateX(${(1 - s) * 5}px)`,
             }}>

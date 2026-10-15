@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 export const ScreenRecording: React.FC<{
   title: string;
@@ -44,7 +45,7 @@ export const ScreenRecording: React.FC<{
         }}>
           {/* 顶栏 */}
           <div style={{
-            padding: "18px 14px", background: "rgba(30,30,45,0.9)",
+            padding: sp("18px 14px"), background: "rgba(30,30,45,0.9)",
             display: "flex", alignItems: "center", gap: 10,
             borderBottom: "1px solid rgba(255,255,255,0.05)",
           }}>
@@ -55,7 +56,7 @@ export const ScreenRecording: React.FC<{
             </div>
             <div style={{
               flex: 1, textAlign: "center",
-              fontFamily: "-apple-system, sans-serif", fontSize: 15,
+              fontFamily: "-apple-system, sans-serif", fontSize: ui.font.small,
               color: "rgba(255,255,255,0.4)", fontWeight: 500,
             }}>{title}</div>
             <div style={{ width: 40 }} />
@@ -63,12 +64,12 @@ export const ScreenRecording: React.FC<{
           {/* 地址栏（可选） */}
           {url && (
             <div style={{
-              padding: "10px 18px", background: "rgba(20,20,35,0.9)",
+              padding: sp("10px 18px"), background: "rgba(20,20,35,0.9)",
               borderBottom: "1px solid rgba(255,255,255,0.04)",
             }}>
               <div style={{
-                background: "rgba(255,255,255,0.04)", borderRadius: 6, padding: "8px 14px",
-                fontFamily: "-apple-system, sans-serif", fontSize: 14, color: "rgba(255,255,255,0.3)",
+                background: "rgba(255,255,255,0.04)", borderRadius: 6, padding: sp("8px 14px"),
+                fontFamily: "-apple-system, sans-serif", fontSize: ui.font.label, color: "rgba(255,255,255,0.3)",
               }}>🔒 {url}</div>
             </div>
           )}
@@ -79,7 +80,7 @@ export const ScreenRecording: React.FC<{
             <div style={{
               position: "absolute", top: 10, right: 12,
               display: "flex", alignItems: "center", gap: 5,
-              padding: "7px 12px", borderRadius: 12,
+              padding: sp("7px 12px"), borderRadius: 12,
               background: "rgba(0,0,0,0.5)",
             }}>
               <div style={{
@@ -89,7 +90,7 @@ export const ScreenRecording: React.FC<{
                 opacity: Math.sin(local * 0.1) > 0 ? 1 : 0.3,
               }} />
               <span style={{
-                fontFamily: "monospace", fontSize: 13, color: "rgba(255,255,255,0.5)",
+                fontFamily: "monospace", fontSize: ui.font.caption, color: "rgba(255,255,255,0.5)",
               }}>REC</span>
             </div>
           </div>

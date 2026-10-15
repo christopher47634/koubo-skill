@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui } from "./designTokens";
 
 export const GlowText: React.FC<{
   text: string;
@@ -11,7 +12,7 @@ export const GlowText: React.FC<{
   fontWeight?: number;
   enterFrame: number;
   exitFrame: number;
-}> = ({ text, fontSize = 44, color = "#E0F2FE", glowColor, glowSize = 20, letterSpacing = 2, fontWeight = 600, enterFrame, exitFrame }) => {
+}> = ({ text, fontSize = ui.font.subtitle, color = "#E0F2FE", glowColor, glowSize = 20, letterSpacing = 2, fontWeight = 600, enterFrame, exitFrame }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   if (frame < enterFrame - 3 || frame > exitFrame) return null;

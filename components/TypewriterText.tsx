@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, interpolate } from "remotion";
+import { ui } from "./designTokens";
 
 export const TypewriterText: React.FC<{
   text: string;
@@ -10,7 +11,7 @@ export const TypewriterText: React.FC<{
   cursor?: boolean;
   enterFrame: number;
   exitFrame: number;
-}> = ({ text, speed = 2, color = "#E0E0E0", fontSize = 30, fontFamily = "'SF Mono', monospace", cursor = true, enterFrame, exitFrame }) => {
+}> = ({ text, speed = 2, color = "#E0E0E0", fontSize = ui.font.h2Lg, fontFamily = "'SF Mono', monospace", cursor = true, enterFrame, exitFrame }) => {
   const frame = useCurrentFrame();
   if (frame < enterFrame || frame > exitFrame) return null;
   const local = frame - enterFrame;

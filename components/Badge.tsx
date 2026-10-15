@@ -1,6 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
-import { rgba } from "./designTokens";
+import { rgba, ui, sp } from "./designTokens";
 
 export const Badge: React.FC<{
   text: string;
@@ -25,11 +25,11 @@ export const Badge: React.FC<{
       background: bgColor || `linear-gradient(135deg, ${rgba(color, 0.14)}, rgba(255,255,255,0.035))`,
       border: `0.5px solid ${rgba(color, 0.32)}`,
       boxShadow: `0 8px 24px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 18px ${rgba(color, 0.08)}`,
-      borderRadius: 24, padding: "8px 18px",
+      borderRadius: 24, padding: sp("8px 18px"),
     }}>
-      {icon && <span style={{ fontSize: 11 }}>{icon}</span>}
+      {icon && <span style={{ fontSize: ui.font.micro }}>{icon}</span>}
       <span style={{
-        fontFamily: "'ChakraPetch', sans-serif", fontSize: 14,
+        fontFamily: "'ChakraPetch', sans-serif", fontSize: ui.font.label,
         color, letterSpacing: 2, fontWeight: 600,
         textShadow: `0 0 14px ${rgba(color, 0.18)}`,
       }}>{text}</span>

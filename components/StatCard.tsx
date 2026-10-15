@@ -1,6 +1,7 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
 import { GlassCard } from "./GlassCard";
+import { ui, sp } from "./designTokens";
 
 export const StatCard: React.FC<{
   stats: { value: string; label: string; icon?: string; color?: string }[];
@@ -23,7 +24,7 @@ export const StatCard: React.FC<{
               opacity: si,
               transform: `translateY(${(1 - si) * 10}px)`,
               display: "flex", alignItems: "center", gap: 20,
-              padding: "16px 18px", borderRadius: 12,
+              padding: sp("16px 18px"), borderRadius: 12,
               background: "rgba(255,255,255,0.03)",
               border: "0.5px solid rgba(255,255,255,0.06)",
             }}>
@@ -32,17 +33,17 @@ export const StatCard: React.FC<{
                   width: 48, height: 48, borderRadius: 12, flexShrink: 0,
                   background: `${stat.color || "rgba(251,146,60,0.45)"}22`,
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 25,
+                  fontSize: ui.font.h3,
                 }}>{stat.icon}</div>
               )}
               <div>
                 <div style={{
                   fontFamily: "'ChakraPetch', -apple-system, sans-serif",
-                  fontSize: 38, color: "#F5F5F5", fontWeight: 600, lineHeight: 1.2,
+                  fontSize: ui.font.h1, color: "#F5F5F5", fontWeight: 600, lineHeight: 1.2,
                 }}>{stat.value}</div>
                 <div style={{
                   fontFamily: "-apple-system, sans-serif",
-                  fontSize: 16, color: "rgba(255,255,255,0.35)", marginTop: 3,
+                  fontSize: ui.font.body, color: "rgba(255,255,255,0.35)", marginTop: 3,
                 }}>{stat.label}</div>
               </div>
             </div>

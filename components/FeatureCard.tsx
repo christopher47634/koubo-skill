@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 export const FeatureCard: React.FC<{
   features: { icon: string; title: string; desc: string; color?: string }[];
@@ -34,7 +35,7 @@ export const FeatureCard: React.FC<{
         <div style={{
           background: "rgba(15,15,20,0.75)",
           backdropFilter: "blur(40px) saturate(180%)",
-          borderRadius: 19, padding: "30px 26px",
+          borderRadius: 19, padding: sp("30px 26px"),
           boxShadow: "0 24px 64px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12)",
         }}>
           <div style={{
@@ -47,7 +48,7 @@ export const FeatureCard: React.FC<{
               const si = clamp01((local - delay) / 10);
               return (
                 <div key={i} style={{
-                  padding: "22px 20px", borderRadius: 14,
+                  padding: sp("22px 20px"), borderRadius: 14,
                   background: "rgba(255,255,255,0.03)",
                   border: "0.5px solid rgba(255,255,255,0.06)",
                   opacity: si, transform: `translateY(${(1 - si) * 10}px) scale(${si})`,
@@ -56,10 +57,10 @@ export const FeatureCard: React.FC<{
                     width: 52, height: 52, borderRadius: 14, marginBottom: 12,
                     background: `${feat.color || "rgba(125,211,252,0.15)"}`,
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 27,
+                    fontSize: ui.font.h3Lg,
                   }}>{feat.icon}</div>
-                  <div style={{ fontFamily: "'LXGW WenKai', sans-serif", fontSize: 21, color: "#E8E8E8", fontWeight: 500, marginBottom: 6 }}>{feat.title}</div>
-                  <div style={{ fontFamily: "-apple-system, sans-serif", fontSize: 16, color: "rgba(255,255,255,0.35)", lineHeight: 1.5 }}>{feat.desc}</div>
+                  <div style={{ fontFamily: "'LXGW WenKai', sans-serif", fontSize: ui.font.h5Lg, color: "#E8E8E8", fontWeight: 500, marginBottom: 6 }}>{feat.title}</div>
+                  <div style={{ fontFamily: "-apple-system, sans-serif", fontSize: ui.font.body, color: "rgba(255,255,255,0.35)", lineHeight: 1.5 }}>{feat.desc}</div>
                 </div>
               );
             })}

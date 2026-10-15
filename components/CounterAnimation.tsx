@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui } from "./designTokens";
 
 export const CounterAnimation: React.FC<{
   from: number;
@@ -12,7 +13,7 @@ export const CounterAnimation: React.FC<{
   fontSize?: number;
   enterFrame: number;
   exitFrame: number;
-}> = ({ from, to, duration = 40, prefix = "", suffix = "", label, color = "#F5F5F5", fontSize = 72, enterFrame, exitFrame }) => {
+}> = ({ from, to, duration = 40, prefix = "", suffix = "", label, color = "#F5F5F5", fontSize = ui.font.stat, enterFrame, exitFrame }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   if (frame < enterFrame - 3 || frame > exitFrame) return null;
@@ -42,7 +43,7 @@ export const CounterAnimation: React.FC<{
       {label && (
         <div style={{
           fontFamily: "-apple-system, sans-serif",
-          fontSize: 18, color: "rgba(255,255,255,0.35)", fontWeight: 500,
+          fontSize: ui.font.lead, color: "rgba(255,255,255,0.35)", fontWeight: 500,
           letterSpacing: 1, textTransform: "uppercase",
         }}>{label}</div>
       )}

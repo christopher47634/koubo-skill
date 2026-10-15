@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 interface Message {
   from: "them" | "me";
@@ -46,20 +47,20 @@ export const ChatBubble: React.FC<{
         }}>
           {/* 标题栏 */}
           <div style={{
-            padding: "18px 26px",
+            padding: sp("18px 26px"),
             background: "rgba(59,130,246,0.04)",
             borderBottom: "1px solid rgba(0,0,0,0.04)",
           }}>
             <span style={{
               background: "linear-gradient(135deg, #3B82F6, #2563EB)",
-              borderRadius: 10, padding: "9px 20px",
+              borderRadius: 10, padding: sp("9px 20px"),
               fontFamily: "'ChakraPetch', -apple-system, sans-serif",
-              fontSize: 18, color: "#FFF", fontWeight: 600,
+              fontSize: ui.font.lead, color: "#FFF", fontWeight: 600,
               boxShadow: "0 2px 8px rgba(59,130,246,0.3)",
             }}>{title}</span>
           </div>
           {/* 消息列表 */}
-          <div style={{ padding: "22px 26px", display: "flex", flexDirection: "column", gap: 12 }}>
+          <div style={{ padding: sp("22px 26px"), display: "flex", flexDirection: "column", gap: 12 }}>
             {messages.map((msg, i) => {
               const delay = i * 5;
               const si = clamp01((local - delay) / 8);
@@ -76,7 +77,7 @@ export const ChatBubble: React.FC<{
                       : "#FFF",
                     color: "#333",
                     borderRadius: isMe ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
-                    padding: "15px 20px", fontSize: 20, lineHeight: 1.5,
+                    padding: sp("15px 20px"), fontSize: ui.font.h5, lineHeight: 1.5,
                     fontFamily: "'LXGW WenKai', -apple-system, sans-serif",
                     boxShadow: isMe
                       ? "0 2px 8px rgba(149,236,105,0.3)"

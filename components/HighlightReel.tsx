@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 export const HighlightReel: React.FC<{
   items: { text: string; icon?: string; highlight?: boolean }[];
@@ -32,7 +33,7 @@ export const HighlightReel: React.FC<{
         <div style={{
           background: "rgba(15,15,20,0.78)",
           backdropFilter: "blur(40px) saturate(180%)",
-          borderRadius: 19, padding: "28px 26px",
+          borderRadius: 19, padding: sp("28px 26px"),
           boxShadow: "0 24px 64px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)",
         }}>
           {items.map((item, i) => {
@@ -42,7 +43,7 @@ export const HighlightReel: React.FC<{
             return (
               <div key={i} style={{
                 display: "flex", alignItems: "center", gap: 18,
-                padding: "18px 20px", marginBottom: i < items.length - 1 ? 6 : 0,
+                padding: sp("18px 20px"), marginBottom: i < items.length - 1 ? 6 : 0,
                 borderRadius: 14,
                 background: isHl ? "rgba(96,165,250,0.06)" : "rgba(255,255,255,0.02)",
                 border: isHl ? "1px solid rgba(96,165,250,0.15)" : "0.5px solid rgba(255,255,255,0.04)",
@@ -55,10 +56,10 @@ export const HighlightReel: React.FC<{
                   background: isHl ? "#60A5FA" : "rgba(255,255,255,0.15)",
                   boxShadow: isHl ? "0 0 8px rgba(96,165,250,0.4)" : "none",
                 }} />
-                {item.icon && <span style={{ fontSize: 22, flexShrink: 0 }}>{item.icon}</span>}
+                {item.icon && <span style={{ fontSize: ui.font.h4, flexShrink: 0 }}>{item.icon}</span>}
                 <span style={{
                   fontFamily: "'LXGW WenKai', sans-serif",
-                  fontSize: isHl ? 19 : 17,
+                  fontSize: isHl ? ui.font.leadLg : ui.font.bodyLg,
                   color: isHl ? "#E8E8E8" : "rgba(255,255,255,0.55)",
                   fontWeight: isHl ? 500 : 400,
                   lineHeight: 1.5,

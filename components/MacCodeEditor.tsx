@@ -1,6 +1,7 @@
 import React from "react";
 import { useCurrentFrame } from "remotion";
 import { MacWindow } from "./MacWindow";
+import { ui, sp } from "./designTokens";
 
 export const MacCodeEditor: React.FC<{
   filename: string;
@@ -21,7 +22,7 @@ export const MacCodeEditor: React.FC<{
       <div style={{ display: "flex", height: "100%", background: "rgba(18,18,22,0.95)" }}>
         {/* 行号 */}
         <div style={{
-          padding: "20px 0", minWidth: 44,
+          padding: sp("20px 0"), minWidth: 44,
           textAlign: "right", paddingRight: 14,
           borderRight: "1px solid rgba(255,255,255,0.05)",
           background: "rgba(0,0,0,0.15)",
@@ -29,20 +30,20 @@ export const MacCodeEditor: React.FC<{
           {code.map((_, i) => (
             <div key={i} style={{
               fontFamily: "'SF Mono', 'JetBrains Mono', monospace",
-              fontSize: 15, lineHeight: 1.75,
+              fontSize: ui.font.small, lineHeight: 1.75,
               color: "rgba(255,255,255,0.18)",
             }}>{i + 1}</div>
           ))}
         </div>
         {/* 代码 */}
-        <div style={{ padding: "20px 18px", flex: 1, overflow: "hidden" }}>
+        <div style={{ padding: sp("20px 18px"), flex: 1, overflow: "hidden" }}>
           {code.map((line, i) => {
             const delay = i * 2;
             const si = clamp01((local - delay) / 5);
             return (
               <div key={i} style={{
                 fontFamily: "'SF Mono', 'Fira Code', 'JetBrains Mono', monospace",
-                fontSize: 16, lineHeight: 1.75,
+                fontSize: ui.font.body, lineHeight: 1.75,
                 color: line.color || "#D4D4D4",
                 background: line.highlight ? "rgba(255,255,255,0.04)" : "transparent",
                 opacity: si,

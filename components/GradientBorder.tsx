@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, interpolate } from "remotion";
+import { sp } from "./designTokens";
 
 export const GradientBorder: React.FC<{
   children: React.ReactNode;
@@ -26,7 +27,7 @@ export const GradientBorder: React.FC<{
       }}>
         <div style={{
           background: "rgba(10,10,15,0.92)",
-          borderRadius: 20.5, padding: "30px 34px",
+          borderRadius: 20.5, padding: sp("30px 34px"),
           backdropFilter: "blur(20px)",
         }}>
           {children}

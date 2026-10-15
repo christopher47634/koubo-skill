@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 export const StatusIndicator: React.FC<{
   items: { label: string; status: "active" | "warning" | "error" | "idle"; value?: string }[];
@@ -31,7 +32,7 @@ export const StatusIndicator: React.FC<{
         return (
           <div key={i} style={{
             display: "flex", alignItems: "center", gap: 10,
-            padding: "12px 20px", borderRadius: 26,
+            padding: sp("12px 20px"), borderRadius: 26,
             background: "linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.018))",
             border: "0.5px solid rgba(255,255,255,0.08)",
             boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 20px rgba(0,0,0,0.16)",
@@ -45,12 +46,12 @@ export const StatusIndicator: React.FC<{
             }} />
             <span style={{
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 18, color: "rgba(255,255,255,0.55)", fontWeight: 600,
+              fontSize: ui.font.lead, color: "rgba(255,255,255,0.55)", fontWeight: 600,
             }}>{item.label}</span>
             {item.value && (
               <span style={{
                 fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 18, color, fontWeight: 700, fontVariantNumeric: "tabular-nums",
+                fontSize: ui.font.lead, color, fontWeight: 700, fontVariantNumeric: "tabular-nums",
               }}>{item.value}</span>
             )}
           </div>

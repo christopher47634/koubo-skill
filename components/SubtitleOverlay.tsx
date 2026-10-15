@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, interpolate } from "remotion";
+import { ui, sp } from "./designTokens";
 
 export const SUBTITLE_Z_INDEX = 1000;
 
@@ -26,17 +27,17 @@ export const SubtitleOverlay: React.FC<{
       <div style={{
         display: "flex", flexDirection: "column", alignItems: "center",
         background: "rgba(0,0,0,0.42)", backdropFilter: "blur(16px)",
-        borderRadius: 14, padding: "14px 44px 10px",
+        borderRadius: 14, padding: sp("14px 44px 10px"),
         boxShadow: "0 4px 24px rgba(0,0,0,0.25)",
       }}>
         <div style={{
-          fontFamily: "'LXGW WenKai', sans-serif", fontSize: 44,
+          fontFamily: "'LXGW WenKai', sans-serif", fontSize: ui.font.subtitle,
           lineHeight: 1.5, textAlign: "center", letterSpacing: 1.5,
           color: "#F0F0F0", textShadow: "0 2px 10px rgba(0,0,0,0.45)",
         }}>{highlightFn ? highlightFn(text) : text}</div>
         {en && (
           <div style={{
-            fontFamily: "'ChakraPetch', sans-serif", fontSize: 26,
+            fontFamily: "'ChakraPetch', sans-serif", fontSize: ui.font.en,
             lineHeight: 1.4, textAlign: "center",
             color: "rgba(255,255,255,0.46)", marginTop: 3,
           }}>{en}</div>
