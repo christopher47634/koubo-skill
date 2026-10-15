@@ -41,6 +41,18 @@
 
 ---
 
+## 渲染前检查与测试
+
+```bash
+npm run lint:timeline     # 字幕时间戳单调/不重叠/不超时长、场景 subIdx 与 duration>0 检查（渲染前自动执行 prerender）
+npm run export:captions   # 把 src/subtitles.json 导出为 Remotion @remotion/captions 的 Caption[]（text,startMs,endMs,timestampMs,confidence），便于换引擎
+npm run typecheck && npm test
+```
+
+- 转换函数：`scripts/lib/captions.mjs`（`toCaptions` / `fromCaptions`），单测在 `test/`。
+- CI（`.github/workflows/ci.yml`）：tsc + 时间轴 lint + 单测。
+- 说明：基准截图回归（remotion still + PSNR）未做，因渲染依赖本地视频/字体素材与 Chromium，不适合在无素材的 CI 里跑。
+
 ## 📖 目录
 
 - [快速开始](#-快速开始)

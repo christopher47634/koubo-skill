@@ -4,7 +4,12 @@
   "private": true,
   "scripts": {
     "start": "remotion studio",
-    "render": "TMPDIR=/tmp remotion render src/index.ts main output.mp4 --codec h264"
+    "render": "TMPDIR=/tmp remotion render src/index.ts main output.mp4 --codec h264",
+    "lint:timeline": "node scripts/lint-timeline.mjs",
+    "export:captions": "node scripts/export-captions.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test test/*.test.mjs",
+    "prerender": "npm run lint:timeline"
   },
   "dependencies": {
     "react": "^18.2.0",
