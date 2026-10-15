@@ -1,118 +1,63 @@
 #!/bin/bash
 # 口播视频项目初始化脚本
-# 用法：bash init_project.sh
+# 用法：bash init_project.sh [项目目录]
+#
+# 环境变量（均可选）：
+#   KOUBO_PROJECT   项目目录，默认 $HOME/koubo-project（也可用第 1 个参数）
+#   KOUBO_FONT_DIR  含 LXGWWenKai-Regular.ttf / ChakraPetch-SemiBold.ttf 的目录
+#   KOUBO_BGM       背景音乐 mp3 文件路径（需自备，仓库不带）
+#   NPM_REGISTRY    npm 镜像地址，不设则用默认源（国内可设 https://registry.npmmirror.com）
 
-set -e
+set -euo pipefail
 
-PROJECT="${MODE1_PROJECT:-/tmp/remotion-demo}"
 SKILL_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PROJECT="${1:-${KOUBO_PROJECT:-$HOME/koubo-project}}"
 
 # 1. 创建目录结构
-mkdir -p "$PROJECT"/{input,public/{fonts,images,videos,music,sfx},src}
+mkdir -p "$PROJECT"/{input,public/{fonts,images,videos,music,sfx},src/components}
+echo "项目目录: $PROJECT"
 
-# 2. 复制字体（从E盘项目备份）
-if [ -d /mnt/e/Downloads/remotion-project/public/fonts ]; then
-    cp /mnt/e/Downloads/remotion-project/public/fonts/*.ttf "$PROJECT/public/fonts/"
-    echo "OK: 字体已复制"
+# 2. 复制字体（缺失不致命，只警告）
+if [ -n "${KOUBO_FONT_DIR:-}" ] && compgen -G "$KOUBO_FONT_DIR/*.ttf" > /dev/null; then
+    cp "$KOUBO_FONT_DIR"/*.ttf "$PROJECT/public/fonts/"
+    echo "OK: 字体已从 $KOUBO_FONT_DIR 复制"
 else
-    echo "WARN: E盘没有字体备份，需要手动放入 LXGWWenKai-Regular.ttf 和 ChakraPetch-SemiBold.ttf"
+    echo "WARN: 未提供字体。请把 LXGWWenKai-Regular.ttf 与 ChakraPetch-SemiBold.ttf"
+    echo "      放进 $PROJECT/public/fonts/（或设置 KOUBO_FONT_DIR 后重跑）"
 fi
 
-# 3. 复制BGM（从E盘永久资产）
-if [ -f /mnt/e/Downloads/bgm/track-32.mp3 ]; then
-    cp /mnt/e/Downloads/bgm/track-32.mp3 "$PROJECT/public/music/"
-    echo "OK: BGM已复制"
+# 3. 复制 BGM（需用户自备）
+if [ -n "${KOUBO_BGM:-}" ] && [ -f "$KOUBO_BGM" ]; then
+    cp "$KOUBO_BGM" "$PROJECT/public/music/track-32.mp3"
+    echo "OK: BGM 已复制为 public/music/track-32.mp3"
+else
+    echo "WARN: 未提供 BGM。请自备 mp3 放到 $PROJECT/public/music/track-32.mp3（或设置 KOUBO_BGM）"
 fi
 
-# 4. 优先复制 Skill 内置音效，E 盘目录作为兼容回退
-if [ -d "$SKILL_ROOT/assets/sfx" ]; then
+# 4. 复制 Skill 内置音效
+if compgen -G "$SKILL_ROOT/assets/sfx/*.mp3" > /dev/null; then
     cp "$SKILL_ROOT"/assets/sfx/*.mp3 "$PROJECT/public/sfx/"
-    echo "OK: Skill 内置音效已复制"
-elif [ -d /mnt/e/Downloads/sfx ]; then
-    cp /mnt/e/Downloads/sfx/*.mp3 "$PROJECT/public/sfx/"
-    echo "OK: E 盘音效已复制"
+    echo "OK: 内置音效已复制"
 fi
 
-# 5. 复制已验证的组件库；保持组件固有尺寸
-if [ -d "$SKILL_ROOT/components" ]; then
-    mkdir -p "$PROJECT/src/components"
-    cp "$SKILL_ROOT"/components/*.ts "$PROJECT/src/components/"
-    cp "$SKILL_ROOT"/components/*.tsx "$PROJECT/src/components/"
-    echo "OK: Remotion 组件库已复制"
-fi
+# 5. 复制组件库
+cp "$SKILL_ROOT"/components/*.ts "$SKILL_ROOT"/components/*.tsx "$PROJECT/src/components/"
+echo "OK: 组件库已复制"
 
-# 6. 复制 Mode1 模板，不覆盖已存在的项目文件
-for template in Composition.tsx Root.tsx subtitles.ts subtitles.json; do
-    if [ ! -f "$PROJECT/src/$template" ]; then
-        cp "$SKILL_ROOT/templates/$template" "$PROJECT/src/$template"
-    fi
+# 6. 复制模板（不覆盖已存在的项目文件）
+for f in Composition.tsx Root.tsx index.ts subtitles.ts subtitles.json; do
+    [ -f "$PROJECT/src/$f" ] || cp "$SKILL_ROOT/templates/$f" "$PROJECT/src/$f"
 done
+for f in package.json tsconfig.json; do
+    [ -f "$PROJECT/$f" ] || cp "$SKILL_ROOT/templates/$f" "$PROJECT/$f"
+done
+echo "OK: 模板已复制（package.json 锁定 remotion 4.0.290）"
 
-# 6. 创建 package.json（如果不存在）
-if [ ! -f "$PROJECT/package.json" ]; then
-    cat > "$PROJECT/package.json" << 'EOF'
-{
-  "name": "remotion-oral-video",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "start": "remotion studio",
-    "render": "TMPDIR=/tmp remotion render src/index.ts main output.mp4 --codec h264"
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "remotion": "^4.0.0",
-    "@remotion/cli": "^4.0.0",
-    "@remotion/bundler": "^4.0.0",
-    "@remotion/renderer": "^4.0.0",
-    "@remotion/media-utils": "^4.0.0"
-  },
-  "devDependencies": {
-    "typescript": "^5.0.0",
-    "@types/react": "^18.0.0"
-  }
-}
-EOF
-    echo "OK: package.json 已创建"
-fi
-
-# 7. 创建 src/index.ts（如果不存在）
-if [ ! -f "$PROJECT/src/index.ts" ]; then
-    cat > "$PROJECT/src/index.ts" << 'EOF'
-import { registerRoot } from "remotion";
-import { RemotionRoot } from "./Root";
-registerRoot(RemotionRoot);
-EOF
-fi
-
-# 9. 创建 tsconfig.json（如果不存在）
-if [ ! -f "$PROJECT/tsconfig.json" ]; then
-    cat > "$PROJECT/tsconfig.json" << 'EOF'
-{
-  "compilerOptions": {
-    "target": "ES2018",
-    "module": "commonjs",
-    "jsx": "react-jsx",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true
-  },
-  "include": ["src"]
-}
-EOF
-fi
-
-# 10. 安装依赖
+# 7. 安装依赖
 cd "$PROJECT"
-npm install --registry=https://registry.npmmirror.com
+npm install --no-audit --no-fund ${NPM_REGISTRY:+--registry="$NPM_REGISTRY"}
 
 echo ""
 echo "=== 项目初始化完成 ==="
 echo "目录: $PROJECT"
-echo "下一步: 将口播视频放入 input/ 目录"
+echo "下一步: 将口播视频放入 $PROJECT/input/"
